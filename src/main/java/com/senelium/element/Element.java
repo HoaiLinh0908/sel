@@ -208,8 +208,10 @@ public class Element {
         getWaiter().until(ExpectedConditions.elementToBeClickable(this.locator)).click();
     }
 
+    //TODO: create a support method to get clickable element
     public void rightClick() {
-        //TODO
+        WebElement element = getWaiter().until(ExpectedConditions.elementToBeClickable(this.locator));
+        actions().contextClick(element).perform();
     }
 
     public void clickByJs() {
@@ -240,11 +242,11 @@ public class Element {
     }
 
     public void scrollToView() {
-        getActions().scrollToElement(findVisibleElement()).perform();
+        actions().scrollToElement(findVisibleElement()).perform();
     }
 
     public void hover() {
-        getActions().moveToElement(findVisibleElement());
+        actions().moveToElement(findVisibleElement());
     }
 
     public void submitForm() {
@@ -380,7 +382,7 @@ public class Element {
         return mil != null ? Senelium.getWaiter(mil) : Senelium.getDefaultWaiter();
     }
 
-    private Actions getActions() {
+    private Actions actions() {
         return Senelium.getActions();
     }
 }

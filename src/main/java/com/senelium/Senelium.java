@@ -7,6 +7,7 @@ import com.senelium.factories.driver.manager.DriverFactoryManager;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -105,8 +106,8 @@ public class Senelium {
         getDriver().manage().deleteAllCookies();
     }
 
-    public static Alert switchToAlert() {
-        return getDriver().switchTo().alert();
+    public static Alert toAlert() {
+        return Senelium.getDefaultWaiter().until(ExpectedConditions.alertIsPresent());
     }
 
     public static Object executeJavascript(String script, Object... args) {

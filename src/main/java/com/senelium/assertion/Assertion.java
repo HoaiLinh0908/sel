@@ -55,13 +55,13 @@ public class Assertion {
             handleFailedCheck(
                     "visible",
                     "invisible",
-                    message + "\nElement [" + element.getLocator() + "] is expected to be visible but found invisible. ",
+                    message + "\nElement [" + element.getLocator() + "] is expected to be visible but found invisible.",
                     timeout);
         }
     }
 
     private <T> void handleFailedCheck(T expected, T actual, String message, Integer timeout) {
-        String logMessage = composeElementMessage(expected, actual, message, timeout);
+        String logMessage = composeMessage(expected, actual, message, timeout);
         AllureReport.takeScreenshot();
         if (isSoft) {
             errors.add(logMessage);
@@ -85,7 +85,7 @@ public class Assertion {
             handleFailedCheck(
                     "invisible",
                     "visible",
-                    message + "\nElement [" + element.getLocator() + "] is expected to be invisible but found visible. ",
+                    message + "\nElement [" + element.getLocator() + "] is expected to be invisible but found visible.",
                     timeout);
         }
     }
@@ -102,7 +102,7 @@ public class Assertion {
             handleFailedCheck(
                     expectedText,
                     element.getText(true),
-                    message + "\nElement [" + element.getLocator() + "] is expected to be invisible but found visible. ",
+                    message + "\nElement [" + element.getLocator() + "] is expected to be invisible but found visible.",
                     timeout);
         }
     }
@@ -123,7 +123,7 @@ public class Assertion {
             handleFailedCheck(
                     "visible",
                     "invisible or broken",
-                    message + "\nImage element [" + element.getLocator() + "] is expected to be visible but found invisible or broken. ",
+                    message + "\nImage element [" + element.getLocator() + "] is expected to be visible but found invisible or broken.",
                     timeout);
         }
     }
@@ -147,7 +147,7 @@ public class Assertion {
             handleFailedCheck(
                     "selected",
                     "unselected",
-                    message + "\nElement [" + element.getLocator() + "] is expected to be selected but found unselected. ",
+                    message + "\nElement [" + element.getLocator() + "] is expected to be selected but found unselected.",
                     timeout);
         }
     }
@@ -171,19 +171,15 @@ public class Assertion {
             handleFailedCheck(
                     "unselected",
                     "selected",
-                    message + "\nElement [" + element.getLocator() + "] is expected to be unselected but found selected. ",
+                    message + "\nElement [" + element.getLocator() + "] is expected to be unselected but found selected.",
                     timeout);
         }
     }
 
-    private static <T> String composeMessage(T expected, T actual, String message) {
-        String logMsg = message == null ? "" : message;
-        return logMsg + "\nExpected: " + expected + "\nActual:   " + actual;
-    }
-
-    private static <T> String composeElementMessage(T expected, T actual, String message, Integer timeout) {
+    public static <T> String composeMessage(T expected, T actual, String message, Integer timeout) {
         int to = timeout == null ? getDefaultTimeout() : timeout;
-        return composeMessage(expected, actual, message + "Timeout " + to + " millisecond(s).");
+        String logMsg = message + " Timeout " + to + " millisecond(s).";
+        return logMsg + "\nExpected: " + expected + "\nActual:   " + actual;
     }
 
     private static int getDefaultTimeout() {
