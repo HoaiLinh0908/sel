@@ -6,11 +6,13 @@ import com.senelium.element.Element;
 import com.senelium.reports.AllureReport;
 import lombok.Setter;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 @Setter
 public class Assertion {
@@ -50,7 +52,7 @@ public class Assertion {
 
     public void toBeVisible(String message, Integer timeout) {
         try {
-            getWaiter(timeout).until(ExpectedConditions.visibilityOfElementLocated(element.getLocator()));
+            waiter(timeout).until(ExpectedConditions.visibilityOfElementLocated(element.getLocator()));
         } catch (TimeoutException e) {
             handleFailedCheck(
                     "visible",
@@ -80,7 +82,7 @@ public class Assertion {
 
     public void toBeInVisible(String message, Integer timeout) {
         try {
-            getWaiter(timeout).until(ExpectedConditions.invisibilityOfElementLocated(element.getLocator()));
+            waiter(timeout).until(ExpectedConditions.invisibilityOfElementLocated(element.getLocator()));
         } catch (TimeoutException e) {
             handleFailedCheck(
                     "invisible",
@@ -97,7 +99,7 @@ public class Assertion {
     public void toHaveText(String expectedText, String message, Integer timeout) {
         try {
             //Get text already get the visible text
-            getWaiter(timeout).until(ExpectedConditions.textToBe(element.getLocator(), expectedText));
+            waiter(timeout).until(ExpectedConditions.textToBe(element.getLocator(), expectedText));
         } catch (TimeoutException e) {
             handleFailedCheck(
                     expectedText,
@@ -113,7 +115,7 @@ public class Assertion {
 
     public void imgToBeVisible(String message, Integer timeout) {
         try {
-            getWaiter(timeout).until(
+            waiter(timeout).until(
                     ExpectedConditions.not(ExpectedConditions.domPropertyToBe(
                             element.findVisibleElement(),
                             "naturalWidth",
@@ -142,7 +144,7 @@ public class Assertion {
 
     public void toBeSelected(String message, Integer timeout) {
         try {
-            getWaiter(timeout).until(ExpectedConditions.elementToBeSelected(element.getLocator()));
+            waiter(timeout).until(ExpectedConditions.elementToBeSelected(element.getLocator()));
         } catch (TimeoutException e) {
             handleFailedCheck(
                     "selected",
@@ -166,7 +168,7 @@ public class Assertion {
 
     public void toBeUnselected(String message, Integer timeout) {
         try {
-            getWaiter(timeout).until(ExpectedConditions.elementSelectionStateToBe(this.element.getLocator(), false));
+            waiter(timeout).until(ExpectedConditions.elementSelectionStateToBe(this.element.getLocator(), false));
         } catch (TimeoutException e) {
             handleFailedCheck(
                     "unselected",
@@ -174,6 +176,10 @@ public class Assertion {
                     message + "\nElement [" + element.getLocator() + "] is expected to be unselected but found selected.",
                     timeout);
         }
+    }
+
+    private <T> T waitFor(Function<WebDriver, T> expectedCondition, Integer timeout) {
+        return waiter(timeout).until(expectedCondition);
     }
 
     public static <T> String composeMessage(T expected, T actual, String message, Integer timeout) {
@@ -186,7 +192,7 @@ public class Assertion {
         return DriverConfig.getInstance().getTimeout().getElementWait();
     }
 
-    private static WebDriverWait getWaiter(Integer mil) {
+    private static WebDriverWait waiter(Integer mil) {
         return mil != null ? Senelium.getWaiter(mil) : Senelium.getDefaultWaiter();
     }
 }

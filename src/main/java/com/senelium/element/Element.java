@@ -13,13 +13,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Getter
 public class Element {
     private final By locator;
-    private By parentLocator;
-    private Map<Expectation, String> expectedConditionsMap;
 
     public Element(By locator) {
         this.locator = locator;
@@ -87,7 +86,7 @@ public class Element {
     }
 
     public WebElement findElement(Integer timeout) {
-        return getWaiter(timeout).until(ExpectedConditions.presenceOfElementLocated(locator));
+        return waiter(timeout).until(ExpectedConditions.presenceOfElementLocated(locator));
     }
 
     public WebElement findVisibleElement() {
@@ -95,7 +94,7 @@ public class Element {
     }
 
     public WebElement findVisibleElement(Integer timeout) {
-        return getWaiter(timeout).until(ExpectedConditions.visibilityOfElementLocated(locator));
+        return waiter(timeout).until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
     public List<WebElement> findElements() {
@@ -104,7 +103,7 @@ public class Element {
 
     public List<WebElement> findElements(Integer timeout) {
         try {
-            return getWaiter(timeout).until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
+            return waiter(timeout).until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
         } catch (TimeoutException e) {
             // Return an empty list instead of throwing TimeoutException
             return Collections.emptyList();
@@ -122,7 +121,7 @@ public class Element {
         List<WebElement> visibleElements = new ArrayList<>();
         for (WebElement element : elements) {
             try {
-                getWaiter(timeout).until(ExpectedConditions.visibilityOf(element));
+                waiter(timeout).until(ExpectedConditions.visibilityOf(element));
                 visibleElements.add(element);
             } catch (TimeoutException ignored) {
                 // Ignore invisible elements
@@ -157,7 +156,7 @@ public class Element {
 
     public boolean isExisted(Integer timeout) {
         try {
-            getWaiter(timeout).until(ExpectedConditions.presenceOfElementLocated(locator));
+            waiter(timeout).until(ExpectedConditions.presenceOfElementLocated(locator));
         } catch (TimeoutException e) {
             return false;
         }
@@ -170,7 +169,7 @@ public class Element {
 
     public boolean isEnabled(Integer timeout) {
         try {
-            getWaiter(timeout).until(ExpectedConditions.elementToBeClickable(this.locator));
+            waiter(timeout).until(ExpectedConditions.elementToBeClickable(this.locator));
         } catch (TimeoutException e) {
             return false;
         }
@@ -183,7 +182,7 @@ public class Element {
 
     public boolean isSelected(Integer timeout) {
         try {
-            getWaiter(timeout).until(ExpectedConditions.elementToBeSelected(this.locator));
+            waiter(timeout).until(ExpectedConditions.elementToBeSelected(this.locator));
         } catch (TimeoutException e) {
             return false;
         }
@@ -196,7 +195,7 @@ public class Element {
 
     public boolean isNotSelected(Integer timeout) {
         try {
-            getWaiter(timeout).until(ExpectedConditions.elementSelectionStateToBe(this.locator, false));
+            waiter(timeout).until(ExpectedConditions.elementSelectionStateToBe(this.locator, false));
         } catch (TimeoutException e) {
             return false;
         }
@@ -204,14 +203,24 @@ public class Element {
     }
 
     public void click() {
-        // TODO: Handle animated elements
-        getWaiter().until(ExpectedConditions.elementToBeClickable(this.locator)).click();
+        click(null);
     }
 
-    //TODO: create a support method to get clickable element
+    public void click(Integer timeout) {
+        findClickableElement(timeout).click();
+    }
+
     public void rightClick() {
-        WebElement element = getWaiter().until(ExpectedConditions.elementToBeClickable(this.locator));
+        rightClick(null);
+    }
+
+    public void rightClick(Integer timeout) {
+        WebElement element = findClickableElement(timeout);
         actions().contextClick(element).perform();
+    }
+
+    private WebElement findClickableElement(Integer timeout) {
+        return waiter(timeout).until(ExpectedConditions.elementToBeClickable(this.locator));
     }
 
     public void clickByJs() {
@@ -235,6 +244,16 @@ public class Element {
             this.clearText();
         }
         findVisibleElement().sendKeys(keys);
+    }
+
+    public void dragAndDropTo(Element targetElement) {
+        WebElement element = findVisibleElement();
+        actions().dragAndDrop(element, targetElement.findElement()).perform();
+    }
+
+    public void dragAndDropTo(int x, int y) {
+        WebElement element = findVisibleElement();
+        actions().clickAndHold(element).moveToLocation(x, y).release().perform();
     }
 
     public void setValue(String value) {
@@ -323,63 +342,41 @@ public class Element {
         return findElement().getCssValue(propertyName);
     }
 
-    // TODO: I have not tested this method :)
-    public void waitFor(Expectation exp) {
-        Map<Expectation, String> tempMap = getExpectationMap();
-        String methodName = tempMap.get(exp);
-        try {
-            Method method = ExpectedConditions.class.getDeclaredMethod(methodName, By.class);
-            getWaiter().until((ExpectedCondition<?>) method.invoke(null, this.locator));
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private Map<Expectation, String> getExpectationMap() {
-        if (this.expectedConditionsMap == null) {
-            initExpectationMap();
-        }
-        return this.expectedConditionsMap;
-    }
-
-    private void initExpectationMap() {
-        this.expectedConditionsMap = new HashMap<>() {{
-            put(Expectation.VISIBLE, "visibilityOfElementLocated");
-            put(Expectation.HIDDEN, "invisibilityOfElementLocated");
-            put(Expectation.TEXT_CHANGE, "textToBePresentInElementLocated");
-        }};
+    //Apply this for other waits
+    public <T> T waitFor(Function<WebDriver, T> expectedCondition, Integer timeout) {
+        return waiter(timeout).until(expectedCondition);
     }
 
     public void waitForVisible() {
         this.waitForVisible(null);
     }
 
-    public void waitForVisible(Integer mil) {
-        this.getWaiter(mil).until(ExpectedConditions.visibilityOfElementLocated(locator));
+    public void waitForVisible(Integer timeout) {
+        this.findVisibleElement(timeout);
     }
 
     public void waitForInvisible() {
         this.waitForInvisible(null);
     }
 
-    public void waitForInvisible(Integer mil) {
-        getWaiter(mil).until(ExpectedConditions.invisibilityOfElementLocated(locator));
+    public void waitForInvisible(Integer timeout) {
+        waitFor(ExpectedConditions.invisibilityOfElementLocated(locator), timeout);
     }
 
-    public void waitUntilTextChanged(String expectText) {
-        this.waitUntilTextChanged(expectText, null);
+    public void waitForTextToBe(String expectText) {
+        this.waitForTextToBe(expectText, null);
     }
 
-    public void waitUntilTextChanged(String expectText, Integer mil) {
-        getWaiter(mil).until(ExpectedConditions.textToBePresentInElementLocated(locator, expectText));
+    public void waitForTextToBe(String expectText, Integer timeout) {
+        waiter(timeout).until(ExpectedConditions.textToBePresentInElementLocated(locator, expectText));
     }
 
-    private WebDriverWait getWaiter() {
-        return this.getWaiter(null);
+    private WebDriverWait waiter() {
+        return this.waiter(null);
     }
 
-    private WebDriverWait getWaiter(Integer mil) {
-        return mil != null ? Senelium.getWaiter(mil) : Senelium.getDefaultWaiter();
+    private WebDriverWait waiter(Integer timeout) {
+        return timeout != null ? Senelium.getWaiter(timeout) : Senelium.getDefaultWaiter();
     }
 
     private Actions actions() {

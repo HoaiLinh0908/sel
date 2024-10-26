@@ -4,10 +4,7 @@ import com.senelium.config.DriverConfig;
 import com.senelium.config.TestConfig;
 import com.senelium.listener.TestListener;
 import lombok.extern.slf4j.Slf4j;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.Listeners;
+import org.testng.annotations.*;
 
 @Slf4j
 @Listeners(TestListener.class)
@@ -19,14 +16,10 @@ public class TestBase {
         Senelium.open(url);
     }
 
-    @BeforeSuite(alwaysRun = true)
-    public void beforeTestSuite() {
-        testConfig = TestConfig.getInstance();
-        driverConfig = DriverConfig.getInstance();
-    }
-
     @BeforeClass(alwaysRun = true)
     public void initialTest() {
+        testConfig = TestConfig.getInstance();
+        driverConfig = DriverConfig.getInstance();
         Senelium.createDriver(driverConfig);
     }
 
