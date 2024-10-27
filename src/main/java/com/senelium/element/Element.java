@@ -6,9 +6,8 @@ import lombok.Getter;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.pagefactory.ByChained;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.*;
+import org.openqa.selenium.support.ui.Select;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -343,8 +342,16 @@ public class Element {
     }
 
     //Apply this for other waits
-    public <T> T waitFor(Function<WebDriver, T> expectedCondition, Integer timeout) {
+    public <T> T waitFor(ExpectedCondition<T> expectedCondition, Integer timeout) {
         return waiter(timeout).until(expectedCondition);
+    }
+
+    public WebElement waitForPresenceOfElement() {
+        return waitFor(ExpectedConditions.presenceOfElementLocated(locator), null);
+    }
+
+    public WebElement waitForPresenceOfElement(Integer timeout) {
+        return waitFor(ExpectedConditions.presenceOfElementLocated(locator), timeout);
     }
 
     public void waitForVisible() {
@@ -353,6 +360,14 @@ public class Element {
 
     public void waitForVisible(Integer timeout) {
         this.findVisibleElement(timeout);
+    }
+
+    public void waitForEnabled() {
+        this.waitForEnabled(null);
+    }
+
+    public void waitForEnabled(Integer timeout) {
+        this.findClickableElement(timeout);
     }
 
     public void waitForInvisible() {

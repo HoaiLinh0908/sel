@@ -6,13 +6,12 @@ import com.senelium.element.Element;
 import com.senelium.reports.AllureReport;
 import lombok.Setter;
 import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 
 @Setter
 public class Assertion {
@@ -178,7 +177,7 @@ public class Assertion {
         }
     }
 
-    private <T> T waitFor(Function<WebDriver, T> expectedCondition, Integer timeout) {
+    private <T> T waitFor(ExpectedCondition<T> expectedCondition, Integer timeout) {
         return waiter(timeout).until(expectedCondition);
     }
 
