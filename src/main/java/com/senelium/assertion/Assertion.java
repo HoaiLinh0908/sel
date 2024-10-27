@@ -193,6 +193,55 @@ public class Assertion {
         }
     }
 
+    public void toBeEnabled() {
+        this.toBeEnabled("", null);
+    }
+
+    public void toBeEnabled(String message) {
+        this.toBeEnabled(message, null);
+    }
+
+    public void toBeEnabled(Integer timeout) {
+        this.toBeEnabled("", timeout);
+    }
+
+    public void toBeEnabled(String message, Integer timeout) {
+        try {
+            this.element.waitForEnabled(timeout);
+        } catch (TimeoutException e) {
+            handleFailedCheck(
+                    "enabled",
+                    "disabled",
+                    message + "\nElement [" + element.getLocator() + "] is expected to be enabled but found disabled.",
+                    timeout);
+        }
+    }
+
+    public void toBeDisabled() {
+        this.toBeEnabled("", null);
+    }
+
+    public void toBeDisabled(String message) {
+        this.toBeEnabled(message, null);
+    }
+
+    public void toBeDisabled(Integer timeout) {
+        this.toBeEnabled("", timeout);
+    }
+
+    public void toBeDisabled(String message, Integer timeout) {
+        try {
+            this.element.waitForDisabled(timeout);
+        } catch (TimeoutException e) {
+            handleFailedCheck(
+                    "disabled",
+                    "enabled",
+                    message + "\nElement [" + element.getLocator() + "] is expected to be disabled but found enabled.",
+                    timeout);
+        }
+    }
+
+
     private <T> T waitFor(ExpectedCondition<T> expectedCondition, Integer timeout) {
         return waiter(timeout).until(expectedCondition);
     }

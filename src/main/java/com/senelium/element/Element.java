@@ -365,6 +365,14 @@ public class Element {
         this.findClickableElement(timeout);
     }
 
+    public void waitForDisabled() {
+        this.findClickableElement(null);
+    }
+
+    public void waitForDisabled(Integer timeout) {
+        this.findClickableElement(timeout);
+    }
+
     public void waitForInvisible() {
         this.waitForInvisible(null);
     }
