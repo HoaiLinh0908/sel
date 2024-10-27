@@ -13,18 +13,18 @@ public class TestBase {
     protected DriverConfig driverConfig;
 
     protected void open(String url) {
-        Senelium.open(url);
+        Sel.open(url);
     }
 
     @BeforeClass(alwaysRun = true)
     public void initialTest() {
         testConfig = TestConfig.getInstance();
         driverConfig = DriverConfig.getInstance();
-        Senelium.createDriver(driverConfig);
+        Sel.createDriver(driverConfig);
     }
 
     @AfterClass(alwaysRun = true)
     public void cleanUp() {
-        Senelium.closeBrowser();
+        Sel.closeBrowser();
     }
 }

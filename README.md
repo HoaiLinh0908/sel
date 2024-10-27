@@ -1,14 +1,14 @@
-# Senelium 👨‍🔬
+# SEL - Selenium Java 👨‍🔬
 ### Selenium framework for UI web application testing.
 
 ## Introduction
 
-This project is a Selenium framework with the following implementations:
+Sel is a Selenium framework with the following implementations:
 - Auto-wait for element actions.
 - Auto-retry for element assertions.
 - Handle parallel execution.
 - Cross-browser: support Chrome, Firefox, and Edge.
-- Screenshot on failed tests and support Allure report.
+- Screenshot on each failed verification and support Allure report.
 
 
 ## Prerequisites 🛠️
@@ -20,9 +20,9 @@ This project is a Selenium framework with the following implementations:
 ```java
 //Init driver configuration
 DriverConfig driverConfig = DriverConfig.getInstance();
-Senelium.createDriver(driverConfig);
+Sel.createDriver(driverConfig);
 
-Senelium.open("url");
+Sel.open("url");
 
 Element button = Element.byCssSelector("button");
 

@@ -1,6 +1,6 @@
 package com.senelium.pom.theinternet;
 
-import com.senelium.Senelium;
+import com.senelium.Sel;
 import com.senelium.assertion.SeAssert;
 import com.senelium.element.Element;
 
@@ -21,9 +21,9 @@ public class ContextMenuPage {
 
     public void closeAlert(boolean accept) {
         if(accept) {
-            Senelium.toAlert().accept();
+            Sel.toAlert().accept();
             return;
         }
-        Senelium.toAlert().dismiss();
+        Sel.toAlert().dismiss();
     }
 }

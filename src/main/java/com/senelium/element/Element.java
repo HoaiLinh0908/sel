@@ -1,18 +1,13 @@
 package com.senelium.element;
 
-import com.senelium.Senelium;
-import com.senelium.constant.Expectation;
+import com.senelium.Sel;
 import lombok.Getter;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.pagefactory.ByChained;
 import org.openqa.selenium.support.ui.*;
-import org.openqa.selenium.support.ui.Select;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Getter
@@ -223,7 +218,7 @@ public class Element {
     }
 
     public void clickByJs() {
-        Senelium.executeJavascript("arguments[0].click();", findVisibleElement());
+        Sel.executeJavascript("arguments[0].click();", findVisibleElement());
     }
 
     public void clearText() {
@@ -256,7 +251,7 @@ public class Element {
     }
 
     public void setValue(String value) {
-        Senelium.executeJavascript(String.format("arguments[0].value = \"%s\";", value), findVisibleElement());
+        Sel.executeJavascript(String.format("arguments[0].value = \"%s\";", value), findVisibleElement());
     }
 
     public void scrollToView() {
@@ -391,10 +386,10 @@ public class Element {
     }
 
     private WebDriverWait waiter(Integer timeout) {
-        return timeout != null ? Senelium.getWaiter(timeout) : Senelium.getDefaultWaiter();
+        return timeout != null ? Sel.getWaiter(timeout) : Sel.getDefaultWaiter();
     }
 
     private Actions actions() {
-        return Senelium.getActions();
+        return Sel.getActions();
     }
 }

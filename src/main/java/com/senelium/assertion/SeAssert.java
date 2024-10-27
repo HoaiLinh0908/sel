@@ -1,6 +1,6 @@
 package com.senelium.assertion;
 
-import com.senelium.Senelium;
+import com.senelium.Sel;
 import com.senelium.element.Element;
 import org.openqa.selenium.TimeoutException;
 
@@ -22,7 +22,7 @@ public class SeAssert {
     //TODO: improve this -> have a class for Alert assertions?
     public static void expectAlertToBeVisible() {
         try {
-            Senelium.toAlert();
+            Sel.toAlert();
         } catch (TimeoutException e) {
             String message = Assertion.composeMessage(
                     "visible",
@@ -35,7 +35,7 @@ public class SeAssert {
 
     public static void expectAlertHasText(String text) {
         try {
-            String actualText = Senelium.toAlert().getText();
+            String actualText = Sel.toAlert().getText();
             if (text == null || !text.equals(actualText)) {
                 String message = Assertion.composeMessage(
                         "has text {" + text + "}",

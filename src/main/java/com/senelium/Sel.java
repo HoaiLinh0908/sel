@@ -15,10 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-public class Senelium {
+public class Sel {
     private static final ThreadLocal<SeDriver> threadWebDriver = new ThreadLocal<>();
 
-    private Senelium() {
+    private Sel() {
     }
 
     public static void createDriver(DriverConfig config) {
@@ -48,7 +48,7 @@ public class Senelium {
 
     public static WebDriverWait getWaiter(int mil) {
         if (mil < 0) throw new InvalidArgumentException("Waiter timeout must be or greater than 0.");
-        return Senelium.getSeDriver().getWaiter(Duration.ofMillis(mil));
+        return Sel.getSeDriver().getWaiter(Duration.ofMillis(mil));
     }
 
     public static void open(String url) {
@@ -74,7 +74,7 @@ public class Senelium {
         getDriver().close();
     }
 
-    public static void sleep(long mil) {
+    public static void freeze(long mil) {
         try {
             Thread.sleep(mil);
         } catch (InterruptedException e) {
@@ -107,7 +107,7 @@ public class Senelium {
     }
 
     public static Alert toAlert() {
-        return Senelium.getDefaultWaiter().until(ExpectedConditions.alertIsPresent());
+        return Sel.getDefaultWaiter().until(ExpectedConditions.alertIsPresent());
     }
 
     public static Object executeJavascript(String script, Object... args) {

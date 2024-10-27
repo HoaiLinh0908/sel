@@ -1,6 +1,6 @@
 package com.senelium.assertion;
 
-import com.senelium.Senelium;
+import com.senelium.Sel;
 import com.senelium.config.DriverConfig;
 import com.senelium.element.Element;
 import com.senelium.reports.AllureReport;
@@ -103,7 +103,23 @@ public class Assertion {
             handleFailedCheck(
                     expectedText,
                     element.getText(true),
-                    message + "\nElement [" + element.getLocator() + "] is expected to be invisible but found visible.",
+                    String.format("%s\nElement [%s] is expected to have text {%s} but it does not.", message, element.getLocator(), expectedText),
+                    timeout);
+        }
+    }
+
+    public void toNotHaveText(String oldText) {
+        toNotHaveText(oldText, "", null);
+    }
+
+    public void toNotHaveText(String oldText, String message, Integer timeout) {
+        try {
+            waiter(timeout).until(ExpectedConditions.not(ExpectedConditions.textToBe(element.getLocator(), oldText)));
+        } catch (TimeoutException e) {
+            handleFailedCheck(
+                    "not have text " + oldText,
+                    element.getText(),
+                    String.format("%s\nElement [%s] is expected to not have text {%s} but it does.", message, element.getLocator(), oldText),
                     timeout);
         }
     }
@@ -192,6 +208,6 @@ public class Assertion {
     }
 
     private static WebDriverWait waiter(Integer mil) {
-        return mil != null ? Senelium.getWaiter(mil) : Senelium.getDefaultWaiter();
+        return mil != null ? Sel.getWaiter(mil) : Sel.getDefaultWaiter();
     }
 }
