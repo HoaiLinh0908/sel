@@ -6,7 +6,6 @@ import com.senelium.element.Element;
 import com.senelium.reports.AllureReport;
 import lombok.Setter;
 import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -241,9 +240,52 @@ public class Assertion {
         }
     }
 
+    public void toBeExisting() {
+        toBeExisting("", null);
+    }
 
-    private <T> T waitFor(ExpectedCondition<T> expectedCondition, Integer timeout) {
-        return waiter(timeout).until(expectedCondition);
+    public void toBeExisting(String message) {
+        toBeExisting(message, null);
+    }
+
+    public void toBeExisting(Integer timeout) {
+        toBeExisting("", timeout);
+    }
+
+    public void toBeExisting(String message, Integer timeout) {
+        try {
+            this.element.waitForExisting(timeout);
+        } catch (TimeoutException e) {
+            handleFailedCheck(
+                    "existing in the DOM",
+                    "not existing",
+                    message + "\nElement [" + element.getLocator() + "] is expected to be existing but not.",
+                    timeout);
+        }
+    }
+
+    public void toBeNotExisting() {
+        toBeExisting("", null);
+    }
+
+    public void toBeNotExisting(String message) {
+        toBeExisting(message, null);
+    }
+
+    public void toBeNotExisting(Integer timeout) {
+        toBeNotExisting("", timeout);
+    }
+
+    public void toBeNotExisting(String message, Integer timeout) {
+        try {
+            this.element.waitForNotExisting(timeout);
+        } catch (TimeoutException e) {
+            handleFailedCheck(
+                    "existing in the DOM",
+                    "not existing",
+                    message + "\nElement [" + element.getLocator() + "] is expected to be existing but not.",
+                    timeout);
+        }
     }
 
     public static <T> String composeMessage(T expected, T actual, String message, Integer timeout) {

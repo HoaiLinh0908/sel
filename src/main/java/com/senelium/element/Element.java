@@ -341,12 +341,20 @@ public class Element {
         return waiter(timeout).until(expectedCondition);
     }
 
-    public WebElement waitForPresenceOfElement() {
-        return waitFor(ExpectedConditions.presenceOfElementLocated(locator), null);
+    public void waitForExisting() {
+        waitForExisting(null);
     }
 
-    public WebElement waitForPresenceOfElement(Integer timeout) {
-        return waitFor(ExpectedConditions.presenceOfElementLocated(locator), timeout);
+    public void waitForExisting(Integer timeout) {
+        waitFor(ExpectedConditions.presenceOfElementLocated(locator), timeout);
+    }
+
+    public void waitForNotExisting() {
+        waitForNotExisting(null);
+    }
+
+    public void waitForNotExisting(Integer timeout) {
+        waitFor(ExpectedConditions.not(ExpectedConditions.presenceOfElementLocated(locator)), timeout);
     }
 
     public void waitForVisible() {
