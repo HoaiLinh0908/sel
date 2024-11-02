@@ -353,8 +353,10 @@ public class Element {
         waitForNotExisting(null);
     }
 
+    //From findElement document: ...findElement should not be used to look for non-present elements,
+    //use findElements(By) and assert zero length response instead.
     public void waitForNotExisting(Integer timeout) {
-        waitFor(ExpectedConditions.not(ExpectedConditions.presenceOfElementLocated(locator)), timeout);
+        waitFor(ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(locator)), timeout);
     }
 
     public void waitForVisible() {
@@ -378,7 +380,7 @@ public class Element {
     }
 
     public void waitForDisabled(Integer timeout) {
-        this.findClickableElement(timeout);
+        this.waiter(timeout).until(ExpectedConditions.not(ExpectedConditions.elementToBeClickable(locator)));
     }
 
     public void waitForInvisible() {

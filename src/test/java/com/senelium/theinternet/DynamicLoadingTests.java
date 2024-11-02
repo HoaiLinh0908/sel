@@ -23,7 +23,7 @@ public class DynamicLoadingTests extends TheInternetTestBase {
 
     @Test(description = "Test the dynamic loading with rendered element")
     void testDynamicLoadingWithRenderedElement() {
-        DynamicLoadingExamplePage examplePage = dynamicLoadingPage.openExample1();
+        DynamicLoadingExamplePage examplePage = dynamicLoadingPage.openExample2();
         examplePage.expectFinishSectionNotExist();
         examplePage.startLoading();
         examplePage.expectFinishSectionVisible();

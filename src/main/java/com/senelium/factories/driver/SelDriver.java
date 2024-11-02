@@ -8,20 +8,20 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.Objects;
 
-public class SeDriver {
-    WebDriver driver;
-    Actions actions;
-    WebDriverWait defaultWaiter;
+public class SelDriver {
+    private final WebDriver driver;
+    private final Actions actions;
+    private final WebDriverWait defaultWaiter;
 
-    private SeDriver(WebDriver driver, Timeout timeout) {
+    private SelDriver(WebDriver driver, Timeout timeout) {
         Objects.requireNonNull(driver);
         this.driver = driver;
         this.actions = new Actions(this.driver);
         this.defaultWaiter = new WebDriverWait(this.driver, Duration.ofMillis(timeout.getElementWait()), Duration.ofMillis(timeout.getInterval()));
     }
 
-    public static SeDriver newInstance(WebDriver driver, Timeout timeout) {
-        return new SeDriver(driver, timeout);
+    public static SelDriver newInstance(WebDriver driver, Timeout timeout) {
+        return new SelDriver(driver, timeout);
     }
 
     public WebDriver getWebDriver() {

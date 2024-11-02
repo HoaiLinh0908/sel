@@ -10,7 +10,7 @@ import java.io.ByteArrayInputStream;
 public class AllureReport {
 
     public static void takeScreenshot() {
-        Allure.addAttachment("Screenshot", new ByteArrayInputStream(((TakesScreenshot) Sel.getDriver()).getScreenshotAs(OutputType.BYTES)));
+        Allure.addAttachment("Screenshot", new ByteArrayInputStream(((TakesScreenshot) Sel.webDriver()).getScreenshotAs(OutputType.BYTES)));
     }
 
     public static void attachTextLog(String message) {

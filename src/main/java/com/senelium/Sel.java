@@ -2,7 +2,7 @@ package com.senelium;
 
 import com.senelium.config.DriverConfig;
 import com.senelium.factories.driver.DriverFactory;
-import com.senelium.factories.driver.SeDriver;
+import com.senelium.factories.driver.SelDriver;
 import com.senelium.factories.driver.manager.DriverFactoryManager;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.*;
@@ -16,7 +16,7 @@ import java.util.List;
 
 @Slf4j
 public class Sel {
-    private static final ThreadLocal<SeDriver> threadWebDriver = new ThreadLocal<>();
+    private static final ThreadLocal<SelDriver> threadWebDriver = new ThreadLocal<>();
 
     private Sel() {
     }
@@ -27,51 +27,51 @@ public class Sel {
         log.info("Successfully created driver with configuration {}", config);
     }
 
-    public static SeDriver getSeDriver() {
+    public static SelDriver selDriver() {
         if (threadWebDriver.get() == null) {
             throw new RuntimeException("Driver not found. Driver might not be initialized.");
         }
         return threadWebDriver.get();
     }
 
-    public static WebDriver getDriver() {
-        return getSeDriver().getWebDriver();
+    public static WebDriver webDriver() {
+        return selDriver().getWebDriver();
     }
 
     public static Actions getActions() {
-        return getSeDriver().getActions();
+        return selDriver().getActions();
     }
 
     public static WebDriverWait getDefaultWaiter() {
-        return getSeDriver().getDefaultWaiter();
+        return selDriver().getDefaultWaiter();
     }
 
     public static WebDriverWait getWaiter(int mil) {
         if (mil < 0) throw new InvalidArgumentException("Waiter timeout must be or greater than 0.");
-        return Sel.getSeDriver().getWaiter(Duration.ofMillis(mil));
+        return Sel.selDriver().getWaiter(Duration.ofMillis(mil));
     }
 
     public static void open(String url) {
         //support 'baseUrl'?
         log.info("Navigate to [{}]", url);
-        getDriver().get(url);
+        webDriver().get(url);
     }
 
     public static void open(String url, String username, String password) {
         String protocol = url.split(":")[0];
         String authUrl = url.replaceFirst(protocol + "://", protocol + "://" + username + ":" + password + "@");
         log.info("Navigate with basic authentication to [{}]", authUrl);
-        getDriver().get(authUrl);
+        webDriver().get(authUrl);
     }
 
     public static void closeBrowser() {
         log.info("Quit the driver");
-        getDriver().quit();
+        webDriver().quit();
         threadWebDriver.remove();
     }
 
     public static void closeCurrentTab() {
-        getDriver().close();
+        webDriver().close();
     }
 
     public static void freeze(long mil) {
@@ -83,27 +83,27 @@ public class Sel {
     }
 
     public static void refresh() {
-        getDriver().navigate().refresh();
+        webDriver().navigate().refresh();
     }
 
     public static Cookie getCookie(String name) {
-        return getDriver().manage().getCookieNamed(name);
+        return webDriver().manage().getCookieNamed(name);
     }
 
     public static List<Cookie> getCookies() {
-        return new ArrayList<>(getDriver().manage().getCookies());
+        return new ArrayList<>(webDriver().manage().getCookies());
     }
 
     public static void addCookie(Cookie cookie) {
-        getDriver().manage().addCookie(cookie);
+        webDriver().manage().addCookie(cookie);
     }
 
     public static void clearCookie(String name) {
-        getDriver().manage().deleteCookieNamed(name);
+        webDriver().manage().deleteCookieNamed(name);
     }
 
     public static void clearCookies() {
-        getDriver().manage().deleteAllCookies();
+        webDriver().manage().deleteAllCookies();
     }
 
     public static Alert toAlert() {
@@ -111,18 +111,18 @@ public class Sel {
     }
 
     public static Object executeJavascript(String script, Object... args) {
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) getDriver();
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) webDriver();
         return jsExecutor.executeScript(script, args);
     }
 
     public static Object executeAsyncJavascript(String script, Object... args) {
-        JavascriptExecutor jsExecutor = (JavascriptExecutor) getDriver();
+        JavascriptExecutor jsExecutor = (JavascriptExecutor) webDriver();
         return jsExecutor.executeAsyncScript(script, args);
     }
 
     public static void closeCurrentAndSwitchToNewTab() {
         closeCurrentTab();
-        getDriver().switchTo().window(new ArrayList<>(getDriver().getWindowHandles()).get(0));
+        webDriver().switchTo().window(new ArrayList<>(webDriver().getWindowHandles()).get(0));
     }
 
     public static void scrollToElement(WebElement element) {
@@ -130,10 +130,10 @@ public class Sel {
     }
 
     public static void switchToFrame(int index) {
-        getDriver().switchTo().frame(index);
+        webDriver().switchTo().frame(index);
     }
 
     public static void switchToMainWindow() {
-        getDriver().switchTo().defaultContent();
+        webDriver().switchTo().defaultContent();
     }
 }

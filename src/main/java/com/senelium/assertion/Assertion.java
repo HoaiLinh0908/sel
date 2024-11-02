@@ -6,6 +6,7 @@ import com.senelium.element.Element;
 import com.senelium.reports.AllureReport;
 import lombok.Setter;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -50,7 +51,7 @@ public class Assertion {
 
     public void toBeVisible(String message, Integer timeout) {
         try {
-            waiter(timeout).until(ExpectedConditions.visibilityOfElementLocated(element.getLocator()));
+            waitFor(ExpectedConditions.visibilityOfElementLocated(element.getLocator()), timeout);
         } catch (TimeoutException e) {
             handleFailedCheck(
                     "visible",
@@ -80,7 +81,7 @@ public class Assertion {
 
     public void toBeInVisible(String message, Integer timeout) {
         try {
-            waiter(timeout).until(ExpectedConditions.invisibilityOfElementLocated(element.getLocator()));
+            waitFor(ExpectedConditions.invisibilityOfElementLocated(element.getLocator()), timeout);
         } catch (TimeoutException e) {
             handleFailedCheck(
                     "invisible",
@@ -97,7 +98,7 @@ public class Assertion {
     public void toHaveText(String expectedText, String message, Integer timeout) {
         try {
             //Get text already get the visible text
-            waiter(timeout).until(ExpectedConditions.textToBe(element.getLocator(), expectedText));
+            waitFor(ExpectedConditions.textToBe(element.getLocator(), expectedText), timeout);
         } catch (TimeoutException e) {
             handleFailedCheck(
                     expectedText,
@@ -113,7 +114,7 @@ public class Assertion {
 
     public void toNotHaveText(String oldText, String message, Integer timeout) {
         try {
-            waiter(timeout).until(ExpectedConditions.not(ExpectedConditions.textToBe(element.getLocator(), oldText)));
+            waitFor(ExpectedConditions.not(ExpectedConditions.textToBe(element.getLocator(), oldText)), timeout);
         } catch (TimeoutException e) {
             handleFailedCheck(
                     "not have text " + oldText,
@@ -129,12 +130,7 @@ public class Assertion {
 
     public void imgToBeVisible(String message, Integer timeout) {
         try {
-            waiter(timeout).until(
-                    ExpectedConditions.not(ExpectedConditions.domPropertyToBe(
-                            element.findVisibleElement(),
-                            "naturalWidth",
-                            "0"))
-            );
+            waitFor(ExpectedConditions.not(ExpectedConditions.domPropertyToBe(element.findVisibleElement(), "naturalWidth", "0")), timeout);
         } catch (TimeoutException e) {
             handleFailedCheck(
                     "visible",
@@ -158,7 +154,7 @@ public class Assertion {
 
     public void toBeSelected(String message, Integer timeout) {
         try {
-            waiter(timeout).until(ExpectedConditions.elementToBeSelected(element.getLocator()));
+            waitFor(ExpectedConditions.elementToBeSelected(element.getLocator()), timeout);
         } catch (TimeoutException e) {
             handleFailedCheck(
                     "selected",
@@ -182,7 +178,7 @@ public class Assertion {
 
     public void toBeUnselected(String message, Integer timeout) {
         try {
-            waiter(timeout).until(ExpectedConditions.elementSelectionStateToBe(this.element.getLocator(), false));
+            waitFor(ExpectedConditions.elementSelectionStateToBe(this.element.getLocator(), false), timeout);
         } catch (TimeoutException e) {
             handleFailedCheck(
                     "unselected",
@@ -206,7 +202,7 @@ public class Assertion {
 
     public void toBeEnabled(String message, Integer timeout) {
         try {
-            this.element.waitForEnabled(timeout);
+            waitFor(ExpectedConditions.elementToBeClickable(element.getLocator()), timeout);
         } catch (TimeoutException e) {
             handleFailedCheck(
                     "enabled",
@@ -217,20 +213,20 @@ public class Assertion {
     }
 
     public void toBeDisabled() {
-        this.toBeEnabled("", null);
+        this.toBeDisabled("", null);
     }
 
     public void toBeDisabled(String message) {
-        this.toBeEnabled(message, null);
+        this.toBeDisabled(message, null);
     }
 
     public void toBeDisabled(Integer timeout) {
-        this.toBeEnabled("", timeout);
+        this.toBeDisabled("", timeout);
     }
 
     public void toBeDisabled(String message, Integer timeout) {
         try {
-            this.element.waitForDisabled(timeout);
+            waiter(timeout).until(ExpectedConditions.not(ExpectedConditions.elementToBeClickable(element.getLocator())));
         } catch (TimeoutException e) {
             handleFailedCheck(
                     "disabled",
@@ -254,7 +250,7 @@ public class Assertion {
 
     public void toBeExisting(String message, Integer timeout) {
         try {
-            this.element.waitForExisting(timeout);
+            waitFor(ExpectedConditions.presenceOfElementLocated(element.getLocator()), timeout);
         } catch (TimeoutException e) {
             handleFailedCheck(
                     "existing in the DOM",
@@ -265,7 +261,7 @@ public class Assertion {
     }
 
     public void toBeNotExisting() {
-        toBeExisting("", null);
+        toBeNotExisting("", null);
     }
 
     public void toBeNotExisting(String message) {
@@ -278,14 +274,20 @@ public class Assertion {
 
     public void toBeNotExisting(String message, Integer timeout) {
         try {
-            this.element.waitForNotExisting(timeout);
+            //From findElement document: ...findElement should not be used to look for non-present elements,
+            //use findElements(By) and assert zero length response instead.
+            waitFor(ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(element.getLocator())), timeout);
         } catch (TimeoutException e) {
             handleFailedCheck(
-                    "existing in the DOM",
-                    "not existing",
-                    message + "\nElement [" + element.getLocator() + "] is expected to be existing but not.",
+                    "not existing in the DOM",
+                    "existing",
+                    message + "\nElement [" + element.getLocator() + "] is expected to be not existing in the DOM but existing.",
                     timeout);
         }
+    }
+
+    public <T> T waitFor(ExpectedCondition<T> expectedCondition, Integer timeout) {
+        return waiter(timeout).until(expectedCondition);
     }
 
     public static <T> String composeMessage(T expected, T actual, String message, Integer timeout) {
