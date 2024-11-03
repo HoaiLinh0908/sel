@@ -58,3 +58,15 @@ jobs:
           else
             mvn clean test
           fi
+
+      - name: Generate Allure Report
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y allure
+          allure generate --single-file target/allure-results --clean -o allure-report
+
+      - name: Upload Allure Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-tests-report
+          path: allure-report
