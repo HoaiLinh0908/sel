@@ -1,0 +1,60 @@
+name: Run Selenium Tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      tests:
+        description: 'Name of the test class to run (e.g., MyClassName)'
+        required: false
+        default: ''
+      tests_suite:
+        description: 'Path to the TestNG suite XML file (e.g., path/to/your_testng.xml)'
+        required: false
+        default: ''
+      browser:
+        description: 'Browser to use for tests'
+        required: true
+        default: 'chrome'
+        type: choice
+        options:
+          - chrome
+          - firefox
+          - edge
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      BROWSER: ${{ github.event.inputs.browser }}
+      TESTS: ${{ github.event.inputs.tests }}
+      TESTS_SUITE: ${{ github.event.inputs.tests_suite }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Install dependencies
+        run: mvn install -DskipTests
+
+      - name: Run Tests
+        run: |
+          if [ "$TESTS" != "" ]; then
+            mvn clean -Dtest=$TESTS -Dbrowser=$BROWSER test
+          elif [ "TESTS_SUITE" != "" ]; then
+            mvn clean test -DsuiteXmlFile=TESTS_SUITE -Dbrowser=$BROWSER
+          else
+            mvn clean test
+          fi
