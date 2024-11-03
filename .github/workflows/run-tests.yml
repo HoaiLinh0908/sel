@@ -61,9 +61,11 @@ jobs:
 
       - name: Install Allure
         run: |
-          sudo apt-get update
-          sudo apt-get install -y allure
-          echo "PATH=/usr/share/allure/bin:$PATH" >> $GITHUB_ENV
+          ALLURE_VERSION=2.29.0
+          wget https://github.com/allure-framework/allure2/releases/download/$ALLURE_VERSION/allure-$ALLURE_VERSION.tgz
+          tar -zxvf allure-$ALLURE_VERSION.tgz
+          sudo mv allure-$ALLURE_VERSION /usr/local/bin/allure
+          export PATH=$PATH:/usr/local/bin/allure/bin
 
       - name: Generate Allure Report
         run: allure generate --single-file target/allure-results --clean -o allure-report
