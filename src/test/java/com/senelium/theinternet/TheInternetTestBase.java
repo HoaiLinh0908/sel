@@ -9,6 +9,10 @@ public class TheInternetTestBase extends TestBase {
 
     @BeforeMethod(alwaysRun = true)
     void beforeEachTheInternetTest() {
+        openTheInternet();
+    }
+
+    protected void openTheInternet() {
         open(testConfig.getTheInternetUrl());
     }
 }

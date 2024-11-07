@@ -21,11 +21,11 @@ public class DriverConfig {
         this.browser = System.getProperty("browser", "chrome");
         this.capabilities = CapsFactoryManager.findFactory(this.browser).createCapabilities();
         this.remoteURL = System.getProperty("remoteURL", "");
-        this.headless = Boolean.parseBoolean(System.getProperty("headless", "true"));
+        this.headless = Boolean.parseBoolean(System.getProperty("headless", "false"));
         this.timeout = new Timeout();
         this.timeout.setPageLoad(Integer.parseInt(System.getProperty("pageLoadTimeout", "60000")));
         this.timeout.setElementWait(Integer.parseInt(System.getProperty("elementWaitTimeout", "5000")));
-        this.timeout.setInterval(Integer.parseInt(System.getProperty("interval", "500")));
+        this.timeout.setInterval(Integer.parseInt(System.getProperty("interval", "200")));
         this.windowMaximize = Boolean.parseBoolean(System.getProperty("headless", "true"));
         this.binary = System.getProperty("binary", "");
     }

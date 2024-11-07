@@ -16,6 +16,10 @@ public class TestBase {
         Sel.open(url);
     }
 
+    protected void refreshPage() {
+        Sel.refresh();
+    }
+
     @BeforeClass(alwaysRun = true)
     public void initialTest() {
         testConfig = TestConfig.getInstance();

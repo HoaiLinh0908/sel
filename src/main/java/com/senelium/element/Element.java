@@ -1,6 +1,7 @@
 package com.senelium.element;
 
 import com.senelium.Sel;
+import com.senelium.utils.CustomExpectedConditions;
 import lombok.Getter;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -132,16 +133,17 @@ public class Element {
         return findVisibleElements(timeout).size();
     }
 
-    public boolean isDisplayed() {
-        return isDisplayed(null);
+    public boolean isVisible() {
+        return isVisible(null);
     }
 
-    public boolean isDisplayed(Integer timeout) {
+    public boolean isVisible(Integer timeout) {
         try {
-            return findVisibleElement(timeout).isDisplayed();
+            findVisibleElement(timeout);
         } catch (TimeoutException e) {
             return false;
         }
+        return true;
     }
 
     public boolean isExisted() {
@@ -397,6 +399,14 @@ public class Element {
 
     public void waitForTextToBe(String expectText, Integer timeout) {
         waiter(timeout).until(ExpectedConditions.textToBePresentInElementLocated(locator, expectText));
+    }
+
+    public void waitForStopMoving() {
+        waitForStopMoving(null);
+    }
+
+    public void waitForStopMoving(Integer timeout) {
+        waiter(timeout).until(CustomExpectedConditions.elementToStopMoving(locator));
     }
 
     private WebDriverWait waiter() {
