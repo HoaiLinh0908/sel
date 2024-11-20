@@ -11,7 +11,7 @@ import java.net.URL;
 public interface DriverFactory<T extends MutableCapabilities> {
 
     default SelDriver createDriver(DriverConfig config) {
-        T caps = initCapabilities(config.getCapabilities());
+        T caps = (T) config.getCapabilities();
         if (config.isHeadless()) setHeadless(caps);
         setPageLoadTimeout(caps, config.getTimeout().getPageLoad());
 
@@ -24,8 +24,6 @@ public interface DriverFactory<T extends MutableCapabilities> {
         }
         return SelDriver.newInstance(webDriver, config.getTimeout());
     }
-
-    T initCapabilities(MutableCapabilities caps);
 
     void setHeadless(T caps);
 

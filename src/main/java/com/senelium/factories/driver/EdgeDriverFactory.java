@@ -11,13 +11,6 @@ import java.time.Duration;
 public class EdgeDriverFactory implements DriverFactory<EdgeOptions> {
 
     @Override
-    public EdgeOptions initCapabilities(MutableCapabilities caps) {
-        EdgeOptions options = new EdgeOptions();
-        options.merge(caps);
-        return options;
-    }
-
-    @Override
     public void setHeadless(EdgeOptions options) {
         options.addArguments("--headless");
     }

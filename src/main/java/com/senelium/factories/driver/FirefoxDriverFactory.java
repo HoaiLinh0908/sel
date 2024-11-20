@@ -11,13 +11,6 @@ import java.time.Duration;
 public class FirefoxDriverFactory implements DriverFactory<FirefoxOptions> {
 
     @Override
-    public FirefoxOptions initCapabilities(MutableCapabilities caps) {
-        FirefoxOptions options = new FirefoxOptions();
-        options.merge(caps);
-        return options;
-    }
-
-    @Override
     public void setHeadless(FirefoxOptions options) {
         options.addArguments("--headless");
     }

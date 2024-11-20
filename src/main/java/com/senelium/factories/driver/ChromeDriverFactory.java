@@ -13,13 +13,6 @@ import java.time.Duration;
 public class ChromeDriverFactory implements DriverFactory<ChromeOptions> {
 
     @Override
-    public ChromeOptions initCapabilities(MutableCapabilities caps) {
-        ChromeOptions options = new ChromeOptions();
-        options.merge(caps);
-        return options;
-    }
-
-    @Override
     public void setHeadless(ChromeOptions options) {
         options.addArguments("--headless=new");
     }

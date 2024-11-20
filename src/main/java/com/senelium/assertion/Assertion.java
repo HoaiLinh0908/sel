@@ -1,14 +1,11 @@
 package com.senelium.assertion;
 
-import com.senelium.Sel;
-import com.senelium.config.DriverConfig;
 import com.senelium.element.Element;
 import com.senelium.reports.AllureReport;
 import lombok.Setter;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +59,7 @@ public class Assertion {
     }
 
     private <T> void handleFailedCheck(T expected, T actual, String message, Integer timeout) {
-        String logMessage = composeMessage(expected, actual, message, timeout);
+        String logMessage = SeAssert.composeMessage(expected, actual, message, timeout);
         AllureReport.takeScreenshot();
         if (isSoft) {
             errors.add(logMessage);
@@ -226,7 +223,7 @@ public class Assertion {
 
     public void toBeDisabled(String message, Integer timeout) {
         try {
-            waiter(timeout).until(ExpectedConditions.not(ExpectedConditions.elementToBeClickable(element.getLocator())));
+            waitFor(ExpectedConditions.not(ExpectedConditions.elementToBeClickable(element.getLocator())), timeout);
         } catch (TimeoutException e) {
             handleFailedCheck(
                     "disabled",
@@ -287,20 +284,6 @@ public class Assertion {
     }
 
     public <T> T waitFor(ExpectedCondition<T> expectedCondition, Integer timeout) {
-        return waiter(timeout).until(expectedCondition);
-    }
-
-    public static <T> String composeMessage(T expected, T actual, String message, Integer timeout) {
-        int to = timeout == null ? getDefaultTimeout() : timeout;
-        String logMsg = message + " Timeout " + to + " millisecond(s).";
-        return logMsg + "\nExpected: " + expected + "\nActual:   " + actual;
-    }
-
-    private static int getDefaultTimeout() {
-        return DriverConfig.getInstance().getTimeout().getElementWait();
-    }
-
-    private static WebDriverWait waiter(Integer mil) {
-        return mil != null ? Sel.getWaiter(mil) : Sel.getDefaultWaiter();
+        return SeAssert.waiter(timeout).until(expectedCondition);
     }
 }

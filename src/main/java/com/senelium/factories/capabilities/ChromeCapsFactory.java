@@ -1,6 +1,10 @@
 package com.senelium.factories.capabilities;
 
+import com.senelium.utils.FileUtils;
 import org.openqa.selenium.chrome.ChromeOptions;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ChromeCapsFactory implements CapabilitiesFactory {
 
@@ -12,6 +16,12 @@ public class ChromeCapsFactory implements CapabilitiesFactory {
         options.addArguments("--disable-extensions");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-gpu");
+
+        // Set download directory
+        Map<String, Object> prefs = new HashMap<>();
+        System.out.println(FileUtils.getDownloadDir());
+        prefs.put("download.default_directory", FileUtils.getDownloadDir());
+        options.setExperimentalOption("prefs", prefs);
         return options;
     }
 }

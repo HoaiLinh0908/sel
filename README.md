@@ -22,7 +22,7 @@ Sel is a Selenium framework with the following implementations:
 DriverConfig driverConfig = DriverConfig.getInstance();
 Sel.createDriver(driverConfig);
 
-Sel.open("url");
+Sel.open("https://yoursample.com");
 
 Element button = Element.byCssSelector("button");
 
