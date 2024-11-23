@@ -19,7 +19,6 @@ public class ChromeCapsFactory implements CapabilitiesFactory {
 
         // Set download directory
         Map<String, Object> prefs = new HashMap<>();
-        System.out.println(FileUtils.getDownloadDir());
         prefs.put("download.default_directory", FileUtils.getDownloadDir());
         options.setExperimentalOption("prefs", prefs);
         return options;

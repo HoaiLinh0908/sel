@@ -4,6 +4,7 @@ import com.senelium.config.DriverConfig;
 import com.senelium.factories.driver.DriverFactory;
 import com.senelium.factories.driver.SelDriver;
 import com.senelium.factories.driver.manager.DriverFactoryManager;
+import com.senelium.utils.UrlUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -57,11 +58,15 @@ public class Sel {
         webDriver().get(url);
     }
 
-    public static void open(String url, String username, String password) {
-        String protocol = url.split(":")[0];
-        String authUrl = url.replaceFirst(protocol + "://", protocol + "://" + username + ":" + password + "@");
-        log.info("Navigate with basic authentication to [{}]", authUrl);
-        webDriver().get(authUrl);
+    public static void open(String url, Credentials credentials) {
+        registerAuthentication(url, credentials);
+        webDriver().get(url);
+    }
+
+    public static void registerAuthentication(String url, Credentials credentials) {
+        HasAuthentication authentication = (HasAuthentication) webDriver();
+        String host = UrlUtils.newUri(url).getHost();
+        authentication.register(uri -> uri.getHost().equals(host), () -> credentials);
     }
 
     public static void closeBrowser() {

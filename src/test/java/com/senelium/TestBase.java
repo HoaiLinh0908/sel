@@ -4,6 +4,7 @@ import com.senelium.config.DriverConfig;
 import com.senelium.config.TestConfig;
 import com.senelium.listener.TestListener;
 import lombok.extern.slf4j.Slf4j;
+import org.openqa.selenium.Credentials;
 import org.testng.annotations.*;
 
 @Slf4j
@@ -14,6 +15,10 @@ public class TestBase {
 
     protected void open(String url) {
         Sel.open(url);
+    }
+
+    protected void open(String url, Credentials credentials) {
+        Sel.open(url, credentials);
     }
 
     protected void refreshPage() {

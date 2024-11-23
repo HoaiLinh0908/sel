@@ -1,8 +1,6 @@
 package com.senelium.pom.theinternet;
 
-import com.senelium.Sel;
 import com.senelium.assertion.SeAssert;
-import com.senelium.config.TestConfig;
 import com.senelium.element.Element;
 
 public class BasicAuthPage {
@@ -10,13 +8,6 @@ public class BasicAuthPage {
 
     public BasicAuthPage() {
         congratulationText = Element.byXpath("//p[contains(text(),'Congratulations! You must have the proper credentials.')]");
-    }
-
-    public void signIn(String username, String password) {
-        if (!congratulationText.isExisted()) {
-            String url = TestConfig.getInstance().getTheInternetUrl();
-            Sel.open(url + "/basic_auth", username, password);
-        }
     }
 
     public void shouldBasicAuthCongratulationDisplay() {

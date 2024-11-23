@@ -1,10 +1,10 @@
 package com.senelium.config;
 
 import com.senelium.factories.capabilities.manager.CapsFactoryManager;
+import com.senelium.utils.UrlUtils;
 import lombok.Getter;
 import org.openqa.selenium.MutableCapabilities;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
 @Getter
@@ -50,10 +50,6 @@ public class DriverConfig {
     }
 
     public URL getRemoteAddress() {
-        try {
-            return new URL(this.remoteURL);
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
+        return UrlUtils.newUrl(this.remoteURL);
     }
 }
