@@ -121,6 +121,30 @@ public class Assertion {
         }
     }
 
+    public void toContainText(String expectedText) {
+        toContainText(expectedText, "", null);
+    }
+
+    public void toContainText(String expectedText, Integer timeout) {
+        toContainText(expectedText, "", timeout);
+    }
+
+    public void toContainText(String expectedText, String message) {
+        toContainText(expectedText, message, null);
+    }
+
+    public void toContainText(String expectedText, String message, Integer timeout) {
+        try {
+            waitFor(ExpectedConditions.textToBePresentInElementLocated(element.getLocator(), expectedText), timeout);
+        } catch (TimeoutException e) {
+            handleFailedCheck(
+                    expectedText,
+                    element.getText(true),
+                    String.format("%s\nElement [%s] is expected to contains {%s} but it does not.", message, element.getLocator(), expectedText),
+                    timeout);
+        }
+    }
+
     public void imgToBeVisible() {
         this.imgToBeVisible("", null);
     }

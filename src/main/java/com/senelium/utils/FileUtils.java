@@ -10,4 +10,8 @@ public abstract class FileUtils {
     public static String getDownloadDir() {
         return System.getProperty("downloadDir", FileUtils.getTempDirectory() + "Downloads" + File.separator);
     }
+
+    public static String getCwd() {
+        return System.getProperty("user.dir");
+    }
 }
