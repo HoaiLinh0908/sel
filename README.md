@@ -32,5 +32,5 @@ button.click();
 Element message = Element.byId("#message");
 
 //Auto retry until the element is visible or timeout
-SeAssert.expect(message).toBeVisible();
+SelAssert.expect(message).toBeVisible();
 ```
