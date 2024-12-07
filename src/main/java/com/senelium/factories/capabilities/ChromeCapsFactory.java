@@ -16,7 +16,7 @@ public class ChromeCapsFactory implements CapabilitiesFactory {
         options.addArguments("--disable-extensions");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-gpu");
-        options.setCapability("webSocketUrl", true);
+        //options.setCapability("webSocketUrl", true); //Issue with alert and right click when turn this on (ContextMenuTests class)
 
         // Set download directory
         Map<String, Object> prefs = new HashMap<>();

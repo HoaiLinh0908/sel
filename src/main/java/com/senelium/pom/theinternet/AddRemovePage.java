@@ -1,6 +1,6 @@
 package com.senelium.pom.theinternet;
 
-import com.senelium.assertion.SeAssert;
+import com.senelium.assertion.SelAssert;
 import com.senelium.element.Element;
 
 public class AddRemovePage {
@@ -21,10 +21,10 @@ public class AddRemovePage {
     }
 
     public void shouldDeleteButtonVisible() {
-        SeAssert.expect(this.deleteButton).toBeVisible();
+        SelAssert.expect(this.deleteButton).toBeVisible();
     }
 
     public void shouldDeleteButtonNotVisible() {
-        SeAssert.expect(this.deleteButton).toBeInvisible();
+        SelAssert.expect(this.deleteButton).toBeInvisible();
     }
 }

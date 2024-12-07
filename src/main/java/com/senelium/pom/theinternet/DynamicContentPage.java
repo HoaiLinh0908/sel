@@ -1,6 +1,6 @@
 package com.senelium.pom.theinternet;
 
-import com.senelium.assertion.SeAssert;
+import com.senelium.assertion.SelAssert;
 import com.senelium.element.Element;
 
 public class DynamicContentPage {
@@ -21,6 +21,6 @@ public class DynamicContentPage {
     }
 
     public void expectTextChanged(String oldText) {
-        SeAssert.expect(dynamicRowContent).toNotHaveText(oldText);
+        SelAssert.expect(dynamicRowContent).toNotHaveText(oldText);
     }
 }

@@ -1,6 +1,6 @@
 package com.senelium.pom.theinternet;
 
-import com.senelium.assertion.SeAssert;
+import com.senelium.assertion.SelAssert;
 import com.senelium.element.Element;
 
 public class EntryAdPage {
@@ -24,6 +24,6 @@ public class EntryAdPage {
 
     public void expectEntryModalVisible() {
         modalTitle.waitForStopMoving();
-        SeAssert.expect(modalTitle).toBeVisible();
+        SelAssert.expect(modalTitle).toBeVisible();
     }
 }

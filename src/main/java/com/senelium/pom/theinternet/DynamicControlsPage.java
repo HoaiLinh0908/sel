@@ -1,6 +1,6 @@
 package com.senelium.pom.theinternet;
 
-import com.senelium.assertion.SeAssert;
+import com.senelium.assertion.SelAssert;
 import com.senelium.element.Element;
 
 public class DynamicControlsPage {
@@ -29,11 +29,11 @@ public class DynamicControlsPage {
     }
 
     public void expectCheckboxToVisible() {
-        SeAssert.expect(checkbox).toBeVisible();
+        SelAssert.expect(checkbox).toBeVisible();
     }
 
     public void expectCheckboxToInvisible() {
-        SeAssert.expect(checkbox).toBeInvisible();
+        SelAssert.expect(checkbox).toBeInvisible();
     }
 
     public void enableTextBox() {
@@ -45,10 +45,10 @@ public class DynamicControlsPage {
     }
 
     public void expectTextBoxToEnabled() {
-        SeAssert.expect(textBox).toBeEnabled();
+        SelAssert.expect(textBox).toBeEnabled();
     }
 
     public void expectTextBoxToDisabled() {
-        SeAssert.expect(textBox).toBeDisabled();
+        SelAssert.expect(textBox).toBeDisabled();
     }
 }

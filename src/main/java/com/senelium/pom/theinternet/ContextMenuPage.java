@@ -1,7 +1,7 @@
 package com.senelium.pom.theinternet;
 
 import com.senelium.Sel;
-import com.senelium.assertion.SeAssert;
+import com.senelium.assertion.SelAssert;
 import com.senelium.element.Element;
 
 public class ContextMenuPage {
@@ -16,7 +16,7 @@ public class ContextMenuPage {
     }
 
     public void shouldAlertDisplayWithMessage(String message) {
-        SeAssert.expectAlertHasText(message);
+        SelAssert.expectAlert().toHaveText(message);
     }
 
     public void closeAlert(boolean accept) {

@@ -1,6 +1,6 @@
 package com.senelium.pom.theinternet;
 
-import com.senelium.assertion.SeAssert;
+import com.senelium.assertion.SelAssert;
 import com.senelium.element.Element;
 
 public class FileUploaderPage {
@@ -21,6 +21,6 @@ public class FileUploaderPage {
     }
 
     public void shouldUploadedSectionContain(String fileName) {
-        SeAssert.expect(this.uploadedFileSection).toContainText(fileName);
+        SelAssert.expect(this.uploadedFileSection).toContainText(fileName);
     }
 }

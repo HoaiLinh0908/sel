@@ -1,6 +1,6 @@
 package com.senelium.pom.theinternet;
 
-import com.senelium.assertion.SeAssert;
+import com.senelium.assertion.SelAssert;
 import com.senelium.element.Element;
 
 public class CheckboxesPage {
@@ -37,9 +37,9 @@ public class CheckboxesPage {
 
     private void shouldCheckboxStatusCorrect(Element checkbox, boolean status, String message) {
         if (status) {
-            SeAssert.expect(checkbox).toBeSelected(message);
+            SelAssert.expect(checkbox).toBeSelected(message);
         } else {
-            SeAssert.expect(checkbox).toBeUnselected(message);
+            SelAssert.expect(checkbox).toBeUnselected(message);
         }
     }
 }

@@ -1,6 +1,6 @@
 package com.senelium.pom.theinternet;
 
-import com.senelium.assertion.SeAssert;
+import com.senelium.assertion.SelAssert;
 import com.senelium.element.Element;
 
 public class BasicAuthPage {
@@ -11,6 +11,6 @@ public class BasicAuthPage {
     }
 
     public void shouldBasicAuthCongratulationDisplay() {
-        SeAssert.expect(congratulationText).toBeVisible("The Basic auth congratulation is not displayed.");
+        SelAssert.expect(congratulationText).toBeVisible("The Basic auth congratulation is not displayed.");
     }
 }

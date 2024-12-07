@@ -1,6 +1,6 @@
 package com.senelium.pom.theinternet;
 
-import com.senelium.assertion.SeAssert;
+import com.senelium.assertion.SelAssert;
 import com.senelium.element.Element;
 
 public class DragAndDropPage {
@@ -25,6 +25,6 @@ public class DragAndDropPage {
     }
 
     public void expectColumnHasText(Element column, String text) {
-        SeAssert.expect(column).toHaveText(text);
+        SelAssert.expect(column).toHaveText(text);
     }
 }

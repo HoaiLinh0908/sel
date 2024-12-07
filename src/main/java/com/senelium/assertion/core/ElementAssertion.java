@@ -1,41 +1,19 @@
-package com.senelium.assertion;
+package com.senelium.assertion.core;
 
 import com.senelium.element.Element;
-import com.senelium.reports.AllureReport;
+import lombok.Getter;
 import lombok.Setter;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@Getter
 @Setter
-public class Assertion {
+public class ElementAssertion extends Assertion {
     private Element element;
-    private boolean isSoft;
-    private List<String> errors;
 
-    public Assertion(boolean isSoft) {
-        this.isSoft = isSoft;
-        if (isSoft) {
-            errors = new ArrayList<>();
-        }
-    }
-
-    public Assertion expect(Element element) {
-        this.element = element;
-        return this;
-    }
-
-    public void assertAll() {
-        if (isSoft && errors != null && !errors.isEmpty()) {
-            throw new AssertionError(String.join("\n", errors));
-        }
-    }
-
-    public void mergeAssert(Assertion assertion) {
-        this.errors.addAll(assertion.errors);
+    public ElementAssertion(boolean isSoft) {
+        super(isSoft);
     }
 
     public void toBeVisible() {
@@ -50,21 +28,13 @@ public class Assertion {
         try {
             waitFor(ExpectedConditions.visibilityOfElementLocated(element.getLocator()), timeout);
         } catch (TimeoutException e) {
-            handleFailedCheck(
-                    "visible",
-                    "invisible",
-                    message + "\nElement [" + element.getLocator() + "] is expected to be visible but found invisible.",
-                    timeout);
-        }
-    }
-
-    private <T> void handleFailedCheck(T expected, T actual, String message, Integer timeout) {
-        String logMessage = SeAssert.composeMessage(expected, actual, message, timeout);
-        AllureReport.takeScreenshot();
-        if (isSoft) {
-            errors.add(logMessage);
-        } else {
-            throw new AssertionError(logMessage);
+            this.onFailedCheck(
+                    this.composeMessage("visible",
+                            "invisible",
+                            message + "\nElement [" + element.getLocator() + "] is expected to be visible but found invisible.",
+                            timeout
+                    )
+            );
         }
     }
 
@@ -80,11 +50,13 @@ public class Assertion {
         try {
             waitFor(ExpectedConditions.invisibilityOfElementLocated(element.getLocator()), timeout);
         } catch (TimeoutException e) {
-            handleFailedCheck(
-                    "invisible",
-                    "visible",
-                    message + "\nElement [" + element.getLocator() + "] is expected to be invisible but found visible.",
-                    timeout);
+            this.onFailedCheck(
+                    this.composeMessage("invisible",
+                            "visible",
+                            message + "\nElement [" + element.getLocator() + "] is expected to be invisible but found visible.",
+                            timeout
+                    )
+            );
         }
     }
 
@@ -97,11 +69,13 @@ public class Assertion {
             //Get text already get the visible text
             waitFor(ExpectedConditions.textToBe(element.getLocator(), expectedText), timeout);
         } catch (TimeoutException e) {
-            handleFailedCheck(
-                    expectedText,
-                    element.getText(true),
-                    String.format("%s\nElement [%s] is expected to have text {%s} but it does not.", message, element.getLocator(), expectedText),
-                    timeout);
+            this.onFailedCheck(
+                    this.composeMessage(expectedText,
+                            element.getText(true),
+                            String.format("%s\nElement [%s] is expected to have text {%s} but it does not.", message, element.getLocator(), expectedText),
+                            timeout
+                    )
+            );
         }
     }
 
@@ -113,11 +87,13 @@ public class Assertion {
         try {
             waitFor(ExpectedConditions.not(ExpectedConditions.textToBe(element.getLocator(), oldText)), timeout);
         } catch (TimeoutException e) {
-            handleFailedCheck(
-                    "not have text " + oldText,
-                    element.getText(),
-                    String.format("%s\nElement [%s] is expected to not have text {%s} but it does.", message, element.getLocator(), oldText),
-                    timeout);
+            this.onFailedCheck(
+                    this.composeMessage("not have text " + oldText,
+                            element.getText(),
+                            String.format("%s\nElement [%s] is expected to not have text {%s} but it does.", message, element.getLocator(), oldText),
+                            timeout
+                    )
+            );
         }
     }
 
@@ -137,11 +113,14 @@ public class Assertion {
         try {
             waitFor(ExpectedConditions.textToBePresentInElementLocated(element.getLocator(), expectedText), timeout);
         } catch (TimeoutException e) {
-            handleFailedCheck(
-                    expectedText,
-                    element.getText(true),
-                    String.format("%s\nElement [%s] is expected to contains {%s} but it does not.", message, element.getLocator(), expectedText),
-                    timeout);
+            this.onFailedCheck(
+                    this.composeMessage(
+                            expectedText,
+                            element.getText(true),
+                            String.format("%s\nElement [%s] is expected to contains {%s} but it does not.", message, element.getLocator(), expectedText),
+                            timeout
+                    )
+            );
         }
     }
 
@@ -153,11 +132,13 @@ public class Assertion {
         try {
             waitFor(ExpectedConditions.not(ExpectedConditions.domPropertyToBe(element.findVisibleElement(), "naturalWidth", "0")), timeout);
         } catch (TimeoutException e) {
-            handleFailedCheck(
-                    "visible",
-                    "invisible or broken",
-                    message + "\nImage element [" + element.getLocator() + "] is expected to be visible but found invisible or broken.",
-                    timeout);
+            this.onFailedCheck(
+                    this.composeMessage("visible",
+                            "invisible or broken",
+                            message + "\nImage element [" + element.getLocator() + "] is expected to be visible but found invisible or broken.",
+                            timeout
+                    )
+            );
         }
     }
 
@@ -177,11 +158,13 @@ public class Assertion {
         try {
             waitFor(ExpectedConditions.elementToBeSelected(element.getLocator()), timeout);
         } catch (TimeoutException e) {
-            handleFailedCheck(
-                    "selected",
-                    "unselected",
-                    message + "\nElement [" + element.getLocator() + "] is expected to be selected but found unselected.",
-                    timeout);
+            this.onFailedCheck(
+                    this.composeMessage("selected",
+                            "unselected",
+                            message + "\nElement [" + element.getLocator() + "] is expected to be selected but found unselected.",
+                            timeout
+                    )
+            );
         }
     }
 
@@ -201,11 +184,13 @@ public class Assertion {
         try {
             waitFor(ExpectedConditions.elementSelectionStateToBe(this.element.getLocator(), false), timeout);
         } catch (TimeoutException e) {
-            handleFailedCheck(
-                    "unselected",
-                    "selected",
-                    message + "\nElement [" + element.getLocator() + "] is expected to be unselected but found selected.",
-                    timeout);
+            this.onFailedCheck(
+                    this.composeMessage("unselected",
+                            "selected",
+                            message + "\nElement [" + element.getLocator() + "] is expected to be unselected but found selected.",
+                            timeout
+                    )
+            );
         }
     }
 
@@ -225,11 +210,13 @@ public class Assertion {
         try {
             waitFor(ExpectedConditions.elementToBeClickable(element.getLocator()), timeout);
         } catch (TimeoutException e) {
-            handleFailedCheck(
-                    "enabled",
-                    "disabled",
-                    message + "\nElement [" + element.getLocator() + "] is expected to be enabled but found disabled.",
-                    timeout);
+            this.onFailedCheck(
+                    this.composeMessage("enabled",
+                            "disabled",
+                            message + "\nElement [" + element.getLocator() + "] is expected to be enabled but found disabled.",
+                            timeout
+                    )
+            );
         }
     }
 
@@ -249,11 +236,13 @@ public class Assertion {
         try {
             waitFor(ExpectedConditions.not(ExpectedConditions.elementToBeClickable(element.getLocator())), timeout);
         } catch (TimeoutException e) {
-            handleFailedCheck(
-                    "disabled",
-                    "enabled",
-                    message + "\nElement [" + element.getLocator() + "] is expected to be disabled but found enabled.",
-                    timeout);
+            this.onFailedCheck(
+                    this.composeMessage("disabled",
+                            "enabled",
+                            message + "\nElement [" + element.getLocator() + "] is expected to be disabled but found enabled.",
+                            timeout
+                    )
+            );
         }
     }
 
@@ -273,11 +262,13 @@ public class Assertion {
         try {
             waitFor(ExpectedConditions.presenceOfElementLocated(element.getLocator()), timeout);
         } catch (TimeoutException e) {
-            handleFailedCheck(
-                    "existing in the DOM",
-                    "not existing",
-                    message + "\nElement [" + element.getLocator() + "] is expected to be existing but not.",
-                    timeout);
+            this.onFailedCheck(
+                    this.composeMessage("existing in the DOM",
+                            "not existing",
+                            message + "\nElement [" + element.getLocator() + "] is expected to be existing but not.",
+                            timeout
+                    )
+            );
         }
     }
 
@@ -299,15 +290,17 @@ public class Assertion {
             //use findElements(By) and assert zero length response instead.
             waitFor(ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(element.getLocator())), timeout);
         } catch (TimeoutException e) {
-            handleFailedCheck(
-                    "not existing in the DOM",
-                    "existing",
-                    message + "\nElement [" + element.getLocator() + "] is expected to be not existing in the DOM but existing.",
-                    timeout);
+            this.onFailedCheck(
+                    this.composeMessage("not existing in the DOM",
+                            "existing",
+                            message + "\nElement [" + element.getLocator() + "] is expected to be not existing in the DOM but existing.",
+                            timeout
+                    )
+            );
         }
     }
 
-    public <T> T waitFor(ExpectedCondition<T> expectedCondition, Integer timeout) {
-        return SeAssert.waiter(timeout).until(expectedCondition);
+    private <T> T waitFor(ExpectedCondition<T> expectedCondition, Integer timeout) {
+        return this.waiter(timeout).until(expectedCondition);
     }
 }

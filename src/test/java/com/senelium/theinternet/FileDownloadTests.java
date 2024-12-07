@@ -1,6 +1,6 @@
 package com.senelium.theinternet;
 
-import com.senelium.assertion.SeAssert;
+import com.senelium.assertion.SelAssert;
 import com.senelium.pom.theinternet.FileDownloaderPage;
 import com.senelium.utils.FileUtils;
 import org.testng.annotations.Test;
@@ -15,6 +15,6 @@ public class FileDownloadTests extends TheInternetTestBase {
         fileDownloaderPage.downloadFile(fileName);
 
         String path = FileUtils.getDownloadDir() + fileName;
-        SeAssert.expectFile(path).toBeExisting(10000);
+        SelAssert.expectFile(path).toBeExisting(10000);
     }
 }

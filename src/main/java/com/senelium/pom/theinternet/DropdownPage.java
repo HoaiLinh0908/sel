@@ -1,6 +1,6 @@
 package com.senelium.pom.theinternet;
 
-import com.senelium.assertion.SeAssert;
+import com.senelium.assertion.SelAssert;
 import com.senelium.element.Element;
 import com.senelium.element.Select;
 
@@ -17,11 +17,11 @@ public class DropdownPage {
 
     public void shouldOptionSelected(String text) {
         Element option = dropdown.getOptionWithText(text);
-        SeAssert.expect(option).toBeSelected();
+        SelAssert.expect(option).toBeSelected();
     }
 
     public void shouldOptionUnselected(String text) {
         Element option = dropdown.getOptionWithText(text);
-        SeAssert.expect(option).toBeUnselected();
+        SelAssert.expect(option).toBeUnselected();
     }
 }

@@ -53,14 +53,14 @@ public class Sel {
     }
 
     public static void open(String url) {
-        //support 'baseUrl'?
-        log.info("Navigate to [{}]", url);
-        webDriver().get(url);
+        String completeUrl = System.getProperty("baseUrl", "") + url;
+        log.info("Navigate to [{}]", completeUrl);
+        webDriver().get(completeUrl);
     }
 
     public static void open(String url, Credentials credentials) {
         registerAuthentication(url, credentials);
-        webDriver().get(url);
+        open(url);
     }
 
     public static void registerAuthentication(String url, Credentials credentials) {
