@@ -5,7 +5,7 @@ import com.senelium.element.Element;
 
 public class BrokenImagesPage {
     public void shouldImageNotBroken(String src) {
-        Element img = Element.byCssSelector("img[src=\"%s\"]", src);
+        var img = Element.byCssSelector("img[src=\"%s\"]", src);
         SelAssert.expect(img).imgToBeVisible();
     }
 }

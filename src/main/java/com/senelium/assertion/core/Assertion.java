@@ -30,8 +30,8 @@ public abstract class Assertion {
     }
 
     protected <T> String composeMessage(T expected, T actual, String message, Integer timeout) {
-        int to = timeout == null ? getDefaultTimeout() : timeout;
-        String logMsg = message + " Timeout " + to + " millisecond(s).";
+        var to = timeout == null ? getDefaultTimeout() : timeout;
+        var logMsg = message + " Timeout " + to + " millisecond(s).";
         return logMsg + "\nExpected: " + expected + "\nActual:   " + actual;
     }
 

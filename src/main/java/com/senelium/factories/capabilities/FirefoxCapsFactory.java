@@ -5,7 +5,7 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 public class FirefoxCapsFactory implements CapabilitiesFactory {
     @Override
     public FirefoxOptions createCapabilities() {
-        FirefoxOptions options = new FirefoxOptions();
+        var options = new FirefoxOptions();
         options.setCapability("gpu", false);
 
         String downloadFilePath = "path/to/download/directory";

@@ -37,12 +37,12 @@ public class Table {
     }
 
     public Element getCellOfHeader(String headerName, int rowIndex) {
-        int headerIndex = this.getHeaderIndex(headerName);
+        var headerIndex = this.getHeaderIndex(headerName);
         return this.getCellOfHeader(headerIndex, rowIndex);
     }
 
     public Element getCellOfHeader(String headerName, String rowValue) {
-        int headerIndex = this.getHeaderIndex(headerName);
+        var headerIndex = this.getHeaderIndex(headerName);
         return this.table.getChild(By.xpath(String.format("//td[%s][text()=\"%s\"]", headerIndex, rowValue)));
     }
 

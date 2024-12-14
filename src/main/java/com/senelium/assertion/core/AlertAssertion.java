@@ -26,7 +26,7 @@ public class AlertAssertion extends Assertion {
 
     public void toHaveText(String expectedText) {
         try {
-            String actualText = Sel.toAlert().getText();
+            var actualText = Sel.toAlert().getText();
             if (expectedText == null || !expectedText.equals(actualText)) {
                 this.onFailedCheck(
                         this.composeMessage(

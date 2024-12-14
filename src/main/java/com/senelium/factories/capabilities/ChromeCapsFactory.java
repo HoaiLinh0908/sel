@@ -10,12 +10,13 @@ public class ChromeCapsFactory implements CapabilitiesFactory {
 
     @Override
     public ChromeOptions createCapabilities() {
-        ChromeOptions options = new ChromeOptions();
+        var options = new ChromeOptions();
         options.setCapability(ChromeOptions.LOGGING_PREFS, getLoggingPreferences());
-        options.addArguments("--start-maximized");
         options.addArguments("--disable-extensions");
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-gpu");
+        options.addArguments("--disable-search-engine-choice-screen");
+        options.addArguments("--disable-features=OptimizationGuideModelDownloading,OptimizationHintsFetching,OptimizationTargetPrediction,OptimizationHints");
         //options.setCapability("webSocketUrl", true); //Issue with alert and right click when turn this on (ContextMenuTests class)
 
         // Set download directory

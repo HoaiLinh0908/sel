@@ -26,7 +26,7 @@ public class DriverConfig {
         this.timeout.setPageLoad(Integer.parseInt(System.getProperty("pageLoadTimeout", "60000")));
         this.timeout.setElementWait(Integer.parseInt(System.getProperty("elementWaitTimeout", "5000")));
         this.timeout.setInterval(Integer.parseInt(System.getProperty("interval", "200")));
-        this.windowMaximize = Boolean.parseBoolean(System.getProperty("headless", "true"));
+        this.windowMaximize = Boolean.parseBoolean(System.getProperty("windowMaximize", "true"));
         this.binary = System.getProperty("binary", "");
     }
 
