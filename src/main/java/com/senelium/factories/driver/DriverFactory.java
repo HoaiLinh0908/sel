@@ -1,7 +1,6 @@
 package com.senelium.factories.driver;
 
 import com.senelium.config.DriverConfig;
-import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -16,7 +15,7 @@ public interface DriverFactory<T extends MutableCapabilities> {
         setPageLoadTimeout(caps, config.getTimeout().getPageLoad());
 
         WebDriver webDriver;
-        if (StringUtils.isNotEmpty(config.getRemoteURL())) {
+        if (!config.getRemoteURL().isEmpty()) {
             webDriver = createRemoteWebDriver(config.getRemoteAddress(), caps);
         } else {
             webDriver = createLocalWebDriver(caps, config.getBinary());

@@ -1,7 +1,5 @@
 package com.senelium.factories.driver;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
@@ -22,9 +20,7 @@ public class EdgeDriverFactory implements DriverFactory<EdgeOptions> {
 
     @Override
     public WebDriver createLocalWebDriver(EdgeOptions options, String binary) {
-        if (binary.isEmpty()) {
-            WebDriverManager.edgedriver().setup();
-        } else {
+        if (!binary.isEmpty()) {
             options.setBinary(binary);
         }
         return new EdgeDriver(options);
