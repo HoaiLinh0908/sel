@@ -8,11 +8,11 @@ Sel is a Selenium framework with the following implementations:
 - Auto-retry for element assertions.
 - Handle parallel execution.
 - Cross-browser: support Chrome, Firefox, and Edge.
-- Screenshot on each failed verification and support Allure report.
+- Screenshot on each failed verification for Allure report.
 
 
 ## Prerequisites 🛠️
-- Java 11
+- Java 21
 - Maven
 - Selenium WebDriver 4
 
@@ -31,6 +31,6 @@ button.click();
 
 Element message = Element.byId("#message");
 
-//Auto retry until the element is visible or timeout
+//Auto retry until the element is visible
 SelAssert.expect(message).toBeVisible();
 ```
