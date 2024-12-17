@@ -355,8 +355,10 @@ public class Element {
         waitForNotExisting(null);
     }
 
-    //From findElement document: ...findElement should not be used to look for non-present elements,
-    //use findElements(By) and assert zero length response instead.
+    /*
+     From findElement document: ...findElement should not be used to look for non-present elements,
+     use findElements(By) and assert zero length response instead.
+     */
     public void waitForNotExisting(Integer timeout) {
         waitFor(ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(locator)), timeout);
     }
