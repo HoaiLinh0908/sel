@@ -1,10 +1,7 @@
 package com.senelium.utils;
 
 import com.senelium.Sel;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 
 public class CustomExpectedConditions {
@@ -23,6 +20,25 @@ public class CustomExpectedConditions {
             @Override
             public String toString() {
                 return "element to stop moving: " + locator;
+            }
+        };
+    }
+
+    public static ExpectedCondition<Boolean> alertToHaveText(String expectedText) {
+        return new ExpectedCondition<>() {
+            @Override
+            public Boolean apply(WebDriver driver) {
+                try {
+                    String currentText = driver.switchTo().alert().getText();
+                    return expectedText.equals(currentText);
+                } catch (NoAlertPresentException e) {
+                    return null;
+                }
+            }
+
+            @Override
+            public String toString() {
+                return "alert to have text: " + expectedText;
             }
         };
     }

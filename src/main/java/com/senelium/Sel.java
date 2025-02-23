@@ -115,6 +115,10 @@ public class Sel {
         return Sel.getDefaultWaiter().until(ExpectedConditions.alertIsPresent());
     }
 
+    public static Alert toAlert(int timeout) {
+        return Sel.getWaiter(timeout).until(ExpectedConditions.alertIsPresent());
+    }
+
     public static Object executeJavascript(String script, Object... args) {
         JavascriptExecutor jsExecutor = (JavascriptExecutor) webDriver();
         return jsExecutor.executeScript(script, args);

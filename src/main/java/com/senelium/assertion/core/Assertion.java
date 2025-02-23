@@ -5,6 +5,8 @@ import com.senelium.config.DriverConfig;
 import com.senelium.reports.AllureReport;
 import lombok.Getter;
 import lombok.Setter;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.ArrayList;
@@ -41,5 +43,13 @@ public abstract class Assertion {
 
     protected WebDriverWait waiter(Integer mil) {
         return mil != null ? Sel.getWaiter(mil) : Sel.getDefaultWaiter();
+    }
+
+    protected void toBe(Runnable actions, Integer timeout, String message, String expected, String actual) {
+        try {
+            actions.run();
+        } catch (TimeoutException e) {
+            this.onFailedCheck(this.composeMessage(expected, actual, message, timeout));
+        }
     }
 }

@@ -403,6 +403,16 @@ public class Element {
         waiter(timeout).until(ExpectedConditions.textToBePresentInElementLocated(locator, expectText));
     }
 
+    public void waitForTextChanged(Runnable trigger, Integer timeout) {
+        String oldText = this.getText();
+        trigger.run();
+        waitFor(ExpectedConditions.not(ExpectedConditions.textToBe(locator, oldText)), timeout);
+    }
+
+    public void waitForTextChanged(Runnable trigger) {
+        this.waitForTextChanged(trigger, null);
+    }
+
     public void waitForStopMoving() {
         waitForStopMoving(null);
     }
