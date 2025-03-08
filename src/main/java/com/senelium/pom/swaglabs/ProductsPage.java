@@ -21,6 +21,6 @@ public class ProductsPage extends BasePage {
     }
 
     public void isPageTitleVisible() {
-        SelAssert.expect(this.title).toBeVisible();
+        SelAssert.element(this.title).toBeVisible();
     }
 }

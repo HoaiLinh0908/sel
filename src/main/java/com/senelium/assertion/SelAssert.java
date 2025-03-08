@@ -12,17 +12,17 @@ public class SelAssert {
     // AlertAssertion with isSoft = false does not hold any risk -> One object is sufficient.
     private static final AlertAssertion alertAssertion = new AlertAssertion(false);
 
-    public static ElementAssertion expect(Element element) {
+    public static ElementAssertion element(Element element) {
         initThreadLocal(elementAssertionThread, new ElementAssertion(false));
         elementAssertionThread.get().setElement(element);
         return elementAssertionThread.get();
     }
 
-    public static AlertAssertion expectAlert() {
+    public static AlertAssertion alert() {
         return alertAssertion;
     }
 
-    public static FileAssertion expectFile(String path) {
+    public static FileAssertion file(String path) {
         initThreadLocal(fileAssertionThread, new FileAssertion(false));
         fileAssertionThread.get().setPath(path);
         return fileAssertionThread.get();

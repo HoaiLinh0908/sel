@@ -21,6 +21,6 @@ public class FileUploaderPage {
     }
 
     public void shouldUploadedSectionContain(String fileName) {
-        SelAssert.expect(this.uploadedFileSection).toContainText(fileName);
+        SelAssert.element(this.uploadedFileSection).toContainText(fileName);
     }
 }

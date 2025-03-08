@@ -15,6 +15,6 @@ public class FileDownloadTests extends TheInternetTestBase {
         fileDownloaderPage.downloadFile(fileName);
 
         String path = FileUtils.getDownloadDir() + fileName;
-        SelAssert.expectFile(path).toBeExisting(10000);
+        SelAssert.file(path).toBeExisting(10000);
     }
 }

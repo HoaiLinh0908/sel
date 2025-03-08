@@ -37,9 +37,9 @@ public class CheckboxesPage {
 
     private void shouldCheckboxStatusCorrect(Element checkbox, boolean status, String message) {
         if (status) {
-            SelAssert.expect(checkbox).toBeSelected(message);
+            SelAssert.element(checkbox).toBeSelected(message);
         } else {
-            SelAssert.expect(checkbox).toBeUnselected(message);
+            SelAssert.element(checkbox).toBeUnselected(message);
         }
     }
 }

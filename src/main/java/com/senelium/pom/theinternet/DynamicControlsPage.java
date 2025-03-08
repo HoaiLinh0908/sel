@@ -29,11 +29,11 @@ public class DynamicControlsPage {
     }
 
     public void expectCheckboxToVisible() {
-        SelAssert.expect(checkbox).toBeVisible();
+        SelAssert.element(checkbox).toBeVisible();
     }
 
     public void expectCheckboxToInvisible() {
-        SelAssert.expect(checkbox).toBeInvisible();
+        SelAssert.element(checkbox).toBeInvisible();
     }
 
     public void enableTextBox() {
@@ -45,10 +45,10 @@ public class DynamicControlsPage {
     }
 
     public void expectTextBoxToEnabled() {
-        SelAssert.expect(textBox).toBeEnabled();
+        SelAssert.element(textBox).toBeEnabled();
     }
 
     public void expectTextBoxToDisabled() {
-        SelAssert.expect(textBox).toBeDisabled();
+        SelAssert.element(textBox).toBeDisabled();
     }
 }

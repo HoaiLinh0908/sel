@@ -25,6 +25,6 @@ public class DragAndDropPage {
     }
 
     public void expectColumnHasText(Element column, String text) {
-        SelAssert.expect(column).toHaveText(text);
+        SelAssert.element(column).toHaveText(text);
     }
 }

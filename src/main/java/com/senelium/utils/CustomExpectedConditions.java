@@ -1,19 +1,22 @@
 package com.senelium.utils;
 
-import com.senelium.Sel;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class CustomExpectedConditions {
     public static ExpectedCondition<Boolean> elementToStopMoving(By locator) {
         return new ExpectedCondition<>() {
+            Point initialLocation = null;
 
             @Override
             public Boolean apply(WebDriver driver) {
                 WebElement element = driver.findElement(locator);
-                Point initialLocation = element.getLocation();
-                Sel.freeze(100);
                 Point newLocation = element.getLocation();
+                if (initialLocation == null) {
+                    initialLocation = newLocation;
+                    return false;
+                }
                 return initialLocation.equals(newLocation);
             }
 
@@ -41,5 +44,9 @@ public class CustomExpectedConditions {
                 return "alert to have text: " + expectedText;
             }
         };
+    }
+
+    public static ExpectedCondition<Boolean> imageIsVisible(WebElement element) {
+        return ExpectedConditions.not(ExpectedConditions.domPropertyToBe(element, "naturalWidth", "0"));
     }
 }

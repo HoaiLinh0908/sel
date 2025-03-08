@@ -6,13 +6,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.net.URL;
+import java.time.Duration;
 
 public interface DriverFactory<T extends MutableCapabilities> {
 
     default SelDriver createDriver(DriverConfig config) {
         T caps = (T) config.getCapabilities();
         if (config.isHeadless()) setHeadless(caps);
-        setPageLoadTimeout(caps, config.getTimeout().getPageLoad());
+        //setPageLoadTimeout(caps, config.getTimeout().getPageLoad());
 
         WebDriver webDriver;
         if (!config.getRemoteURL().isEmpty()) {
@@ -21,6 +22,7 @@ public interface DriverFactory<T extends MutableCapabilities> {
             webDriver = createLocalWebDriver(caps, config.getBinary());
             if (config.isWindowMaximize()) setWindowSize(webDriver);
         }
+        webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60));
         return SelDriver.newInstance(webDriver, config.getTimeout());
     }
 

@@ -24,6 +24,6 @@ public class EntryAdPage {
 
     public void expectEntryModalVisible() {
         modalTitle.waitForStopMoving();
-        SelAssert.expect(modalTitle).toBeVisible();
+        SelAssert.element(modalTitle).toBeVisible();
     }
 }

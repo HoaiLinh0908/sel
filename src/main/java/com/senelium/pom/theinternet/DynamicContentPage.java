@@ -21,6 +21,6 @@ public class DynamicContentPage {
     }
 
     public void expectTextChanged(String oldText) {
-        SelAssert.expect(dynamicRowContent).toNotHaveText(oldText);
+        SelAssert.element(dynamicRowContent).toNotHaveText(oldText);
     }
 }

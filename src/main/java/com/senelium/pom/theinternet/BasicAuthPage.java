@@ -11,6 +11,6 @@ public class BasicAuthPage {
     }
 
     public void shouldBasicAuthCongratulationDisplay() {
-        SelAssert.expect(congratulationText).toBeVisible("The Basic auth congratulation is not displayed.");
+        SelAssert.element(congratulationText).toBeVisible("The Basic auth congratulation is not displayed.");
     }
 }

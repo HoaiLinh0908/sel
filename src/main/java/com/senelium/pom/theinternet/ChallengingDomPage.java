@@ -11,12 +11,12 @@ public class ChallengingDomPage {
     }
 
     public void shouldHeaderDisplay(String name) {
-        SelAssert.expect(table.getHeader(name))
+        SelAssert.element(table.getHeader(name))
                 .toBeVisible(String.format("Table header [%s] is not visible", name));
     }
 
     public void shouldCellDisplayUnderHeader(String header, String cell) {
-        SelAssert.expect(table.getCellOfHeader(header, cell))
+        SelAssert.element(table.getCellOfHeader(header, cell))
                 .toBeVisible(String.format("Cell [%s] is not visible under header [%s]", cell, header));
     }
 }

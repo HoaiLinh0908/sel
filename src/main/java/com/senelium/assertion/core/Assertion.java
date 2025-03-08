@@ -33,7 +33,7 @@ public abstract class Assertion {
 
     protected <T> String composeMessage(T expected, T actual, String message, Integer timeout) {
         var to = timeout == null ? getDefaultTimeout() : timeout;
-        var logMsg = message + " Timeout " + to + " millisecond(s).";
+        var logMsg = message + "\nTimeout after " + to + " millisecond(s).";
         return logMsg + "\nExpected: " + expected + "\nActual:   " + actual;
     }
 
@@ -50,6 +50,48 @@ public abstract class Assertion {
             actions.run();
         } catch (TimeoutException e) {
             this.onFailedCheck(this.composeMessage(expected, actual, message, timeout));
+        }
+    }
+
+    protected void toBe(ExpectedCondition<?> expectedCondition, Integer timeout, AssertMessage message) {
+        try {
+            this.waiter(timeout).until(expectedCondition);
+        } catch (TimeoutException e) {
+            this.onFailedCheck(this.composeMessage(message.getExpected(), message.getActual().get(), message.getDetail(), timeout));
+        }
+    }
+
+    public Builder builder() {
+        return new Builder(this);
+    }
+
+    public static class Builder {
+        private Assertion assertion;
+        private ExpectedCondition<?> condition;
+        private Integer timeout;
+        private AssertMessage message;
+
+        public Builder(Assertion assertion) {
+            this.assertion = assertion;
+        }
+
+        public Builder condition(ExpectedCondition<?> condition) {
+            this.condition = condition;
+            return this;
+        }
+
+        public Builder timeout(Integer timeout) {
+            this.timeout = timeout;
+            return this;
+        }
+
+        public Builder message(AssertMessage message) {
+            this.message = message;
+            return this;
+        }
+
+        public void execute() {
+            this.assertion.toBe(condition, timeout, message);
         }
     }
 }

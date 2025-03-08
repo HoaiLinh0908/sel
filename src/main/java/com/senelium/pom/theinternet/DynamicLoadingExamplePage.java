@@ -20,16 +20,16 @@ public class DynamicLoadingExamplePage {
 
     @Step("Verify the Finish section exist")
     public void expectFinishSectionExist() {
-        SelAssert.expect(finishSection).toBeExisting("The Finish section does not exist in the DOM");
+        SelAssert.element(finishSection).toBeExisting("The Finish section does not exist in the DOM");
     }
 
     @Step("Verify the Finish section does not exist")
     public void expectFinishSectionNotExist() {
-        SelAssert.expect(finishSection).toBeNotExisting();
+        SelAssert.element(finishSection).toBeNotExisting();
     }
 
     @Step("Verify the Finish section is visible")
     public void expectFinishSectionVisible() {
-        SelAssert.expect(finishSection).toBeVisible("The Finish section is not visible!", 10000);
+        SelAssert.element(finishSection).toBeVisible("The Finish section is not visible!", 10000);
     }
 }

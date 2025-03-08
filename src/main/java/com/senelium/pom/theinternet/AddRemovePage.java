@@ -21,10 +21,10 @@ public class AddRemovePage {
     }
 
     public void shouldDeleteButtonVisible() {
-        SelAssert.expect(this.deleteButton).toBeVisible();
+        SelAssert.element(this.deleteButton).toBeVisible();
     }
 
     public void shouldDeleteButtonNotVisible() {
-        SelAssert.expect(this.deleteButton).toBeInvisible();
+        SelAssert.element(this.deleteButton).toBeInvisible();
     }
 }

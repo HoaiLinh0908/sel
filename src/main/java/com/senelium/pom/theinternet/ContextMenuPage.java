@@ -16,7 +16,7 @@ public class ContextMenuPage {
     }
 
     public void shouldAlertDisplayWithMessage(String message) {
-        SelAssert.expectAlert().toHaveText(message);
+        SelAssert.alert().toHaveText(message);
     }
 
     public void closeAlert(boolean accept) {

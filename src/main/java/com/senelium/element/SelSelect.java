@@ -2,16 +2,17 @@ package com.senelium.element;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.Quotes;
+import org.openqa.selenium.support.ui.Select;
 
-public class Select {
+public class SelSelect {
     private final Element element;
 
-    public Select(Element element) {
+    public SelSelect(Element element) {
         this.element = element;
     }
 
-    public static Select of(Element element) {
-        return new Select(element);
+    public static SelSelect of(Element element) {
+        return new SelSelect(element);
     }
 
     public void selectByText(String text) {
@@ -32,7 +33,7 @@ public class Select {
         return this.element;
     }
 
-    public org.openqa.selenium.support.ui.Select baseSelect() {
+    public Select baseSelect() {
         return new org.openqa.selenium.support.ui.Select(element.findVisibleElement());
     }
 }

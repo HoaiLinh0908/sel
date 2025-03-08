@@ -2,13 +2,13 @@ package com.senelium.pom.theinternet;
 
 import com.senelium.assertion.SelAssert;
 import com.senelium.element.Element;
-import com.senelium.element.Select;
+import com.senelium.element.SelSelect;
 
 public class DropdownPage {
-    private final Select dropdown;
+    private final SelSelect dropdown;
 
     public DropdownPage() {
-        this.dropdown = Select.of(Element.byId("dropdown"));
+        this.dropdown = SelSelect.of(Element.byId("dropdown"));
     }
 
     public void selectDropdownOption(String text) {
@@ -17,11 +17,11 @@ public class DropdownPage {
 
     public void shouldOptionSelected(String text) {
         Element option = dropdown.getOptionWithText(text);
-        SelAssert.expect(option).toBeSelected();
+        SelAssert.element(option).toBeSelected();
     }
 
     public void shouldOptionUnselected(String text) {
         Element option = dropdown.getOptionWithText(text);
-        SelAssert.expect(option).toBeUnselected();
+        SelAssert.element(option).toBeUnselected();
     }
 }
