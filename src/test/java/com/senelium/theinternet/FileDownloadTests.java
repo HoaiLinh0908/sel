@@ -5,6 +5,8 @@ import com.senelium.pom.theinternet.FileDownloaderPage;
 import com.senelium.utils.FileUtils;
 import org.testng.annotations.Test;
 
+import java.nio.file.Paths;
+
 public class FileDownloadTests extends TheInternetTestBase {
     FileDownloaderPage fileDownloaderPage = new FileDownloaderPage();
     String fileName = "random_data.txt";
@@ -14,7 +16,7 @@ public class FileDownloadTests extends TheInternetTestBase {
         homePage.openPage("File Download");
         fileDownloaderPage.downloadFile(fileName);
 
-        String path = FileUtils.getDownloadDir() + fileName;
+        String path = Paths.get(FileUtils.getDownloadDir(), fileName).toString();
         SelAssert.file(path).toBeExisting(10000);
     }
 }

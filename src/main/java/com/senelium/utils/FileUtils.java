@@ -1,6 +1,6 @@
 package com.senelium.utils;
 
-import java.io.File;
+import java.nio.file.Paths;
 
 public abstract class FileUtils {
     public static String getTempDirectory() {
@@ -8,7 +8,7 @@ public abstract class FileUtils {
     }
 
     public static String getDownloadDir() {
-        return System.getProperty("downloadDir", FileUtils.getTempDirectory() + "Downloads" + File.separator);
+        return System.getProperty("downloadDir", Paths.get(FileUtils.getTempDirectory(), "Downloads").toString());
     }
 
     public static String getCwd() {
