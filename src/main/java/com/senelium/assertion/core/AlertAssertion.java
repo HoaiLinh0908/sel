@@ -1,7 +1,7 @@
 package com.senelium.assertion.core;
 
 import com.senelium.Sel;
-import com.senelium.utils.CustomExpectedConditions;
+import com.senelium.element.CustomExpectedConditions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class AlertAssertion extends Assertion {

@@ -1,4 +1,4 @@
-package com.senelium.utils;
+package com.senelium.element;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedCondition;

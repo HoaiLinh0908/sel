@@ -1,7 +1,7 @@
 package com.senelium.assertion.core;
 
 import com.senelium.element.Element;
-import com.senelium.utils.CustomExpectedConditions;
+import com.senelium.element.CustomExpectedConditions;
 import lombok.Getter;
 import lombok.Setter;
 import org.openqa.selenium.support.ui.ExpectedConditions;

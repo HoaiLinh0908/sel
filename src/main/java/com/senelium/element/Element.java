@@ -1,7 +1,6 @@
 package com.senelium.element;
 
 import com.senelium.Sel;
-import com.senelium.utils.CustomExpectedConditions;
 import lombok.Getter;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;

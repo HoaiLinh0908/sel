@@ -45,14 +45,6 @@ public abstract class Assertion {
         return mil != null ? Sel.getWaiter(mil) : Sel.getDefaultWaiter();
     }
 
-    protected void toBe(Runnable actions, Integer timeout, String message, String expected, String actual) {
-        try {
-            actions.run();
-        } catch (TimeoutException e) {
-            this.onFailedCheck(this.composeMessage(expected, actual, message, timeout));
-        }
-    }
-
     protected void toBe(ExpectedCondition<?> expectedCondition, Integer timeout, AssertMessage message) {
         try {
             this.waiter(timeout).until(expectedCondition);
