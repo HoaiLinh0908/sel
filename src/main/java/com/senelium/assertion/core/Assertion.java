@@ -23,7 +23,7 @@ public abstract class Assertion {
         this.errors = new ArrayList<>();
     }
 
-    protected <T> void onFailedCheck(String message) {
+    protected void onFailedCheck(String message) {
         AllureReport.takeScreenshot();
         if (!this.isSoft) {
             throw new AssertionError(message);
