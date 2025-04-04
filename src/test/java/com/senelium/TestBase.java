@@ -1,16 +1,18 @@
 package com.senelium;
 
+import com.senelium.config.DomainInfo;
 import com.senelium.config.DriverConfig;
-import com.senelium.config.TestConfig;
 import com.senelium.listener.TestListener;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.Credentials;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Listeners;
 
 @Slf4j
 @Listeners(TestListener.class)
 public class TestBase {
-    protected TestConfig testConfig;
+    protected DomainInfo domainInfo;
     protected DriverConfig driverConfig;
 
     protected void open(String url) {
@@ -27,9 +29,31 @@ public class TestBase {
 
     @BeforeClass(alwaysRun = true)
     public void initialTest() {
-        testConfig = TestConfig.getInstance();
-        driverConfig = DriverConfig.getInstance();
+        domainInfo = getDomainInfo();
+        driverConfig = getDriverConfig();
         Sel.createDriver(driverConfig);
+    }
+
+    private DriverConfig getDriverConfig() {
+        var config = DriverConfig.getInfo();
+        updateDriverConfig(config);
+        return config;
+    }
+
+    // Override this method if you tests need different driver configurations
+    protected void updateDriverConfig(DriverConfig config) {
+        // Nothing here
+    }
+
+    protected DomainInfo getDomainInfo() {
+        var info = DomainInfo.getInfo();
+        updateDomainInfo(info);
+        return info;
+    }
+
+    // Override this method if you tests need different domain information
+    protected void updateDomainInfo(DomainInfo info) {
+        // Nothing here
     }
 
     @AfterClass(alwaysRun = true)

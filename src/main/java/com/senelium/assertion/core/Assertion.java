@@ -38,7 +38,7 @@ public abstract class Assertion {
     }
 
     private int getDefaultTimeout() {
-        return DriverConfig.getInstance().getTimeout().getElementWait();
+        return DriverConfig.getInfo().getTimeout().getElementWait();
     }
 
     protected WebDriverWait waiter(Integer mil) {

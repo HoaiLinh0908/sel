@@ -17,7 +17,6 @@ public class ChromeCapsFactory implements CapabilitiesFactory {
         options.addArguments("--disable-gpu");
         options.addArguments("--disable-search-engine-choice-screen");
         options.addArguments("--disable-features=OptimizationGuideModelDownloading,OptimizationHintsFetching,OptimizationTargetPrediction,OptimizationHints");
-        //options.setCapability("webSocketUrl", true); //Issue with alert and right click when turn this on (ContextMenuTests class)
 
         // Set download directory
         Map<String, Object> prefs = new HashMap<>();

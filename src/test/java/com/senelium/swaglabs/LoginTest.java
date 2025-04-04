@@ -11,7 +11,7 @@ public class LoginTest extends TestBase {
 
     @BeforeMethod(alwaysRun = true)
     public void beforeClass() {
-        open(testConfig.getSwagLabsUrl());
+        open(domainInfo.getSwagLabsUrl());
     }
 
     @Test(description = "Users can login successfully.")

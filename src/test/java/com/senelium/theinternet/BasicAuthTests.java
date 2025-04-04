@@ -9,7 +9,7 @@ public class BasicAuthTests extends TheInternetTestBase {
 
     @Override
     public void openTheInternet() {
-        open(testConfig.getTheInternetUrl(), new UsernameAndPassword("admin", "admin"));
+        open(domainInfo.getTheInternetUrl(), new UsernameAndPassword("admin", "admin"));
     }
 
     @Test

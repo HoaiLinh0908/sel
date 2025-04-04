@@ -25,8 +25,12 @@ public class FileAssertion extends Assertion {
         this.toBeExisting(timeout, "");
     }
 
+    public void toBeExisting(String message) {
+        this.toBeExisting(DEFAULT_TIMEOUT, message);
+    }
+
     public void toBeExisting(int timeout, String message) {
-        var interval = DriverConfig.getInstance().getTimeout().getInterval();
+        var interval = DriverConfig.getInfo().getTimeout().getInterval();
         var remain = timeout;
         var fileExists = false;
         var file = new File(this.path);

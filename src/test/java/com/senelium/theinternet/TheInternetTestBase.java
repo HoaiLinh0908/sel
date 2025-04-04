@@ -13,6 +13,6 @@ public class TheInternetTestBase extends TestBase {
     }
 
     protected void openTheInternet() {
-        open(testConfig.getTheInternetUrl());
+        open(domainInfo.getTheInternetUrl());
     }
 }
