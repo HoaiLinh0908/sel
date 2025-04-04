@@ -23,7 +23,7 @@ public class DriverConfig {
     public DriverConfig() {
         this.browser = System.getProperty("browser", "chrome");
         this.remoteURL = System.getProperty("remoteURL", "");
-        this.headless = Boolean.parseBoolean(System.getProperty("headless", "false"));
+        this.headless = Boolean.parseBoolean(System.getProperty("headless", "true"));
         this.timeout = new Timeout();
         this.timeout.setPageLoad(Integer.parseInt(System.getProperty("pageLoadTimeout", "60000")));
         this.timeout.setElementWait(Integer.parseInt(System.getProperty("elementWaitTimeout", "5000")));
