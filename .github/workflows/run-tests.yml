@@ -1,6 +1,10 @@
 name: Run Selenium Tests
 
 on:
+  push:
+    branches:
+      - development
+
   workflow_dispatch:
     inputs:
       tests:

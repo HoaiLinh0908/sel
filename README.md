@@ -3,11 +3,11 @@
 
 ## Introduction
 
-Sel is a Selenium framework with the following implementations:
+Sel is a personal Selenium framework with the following implementations:
 - Auto-wait for element actions.
 - Auto-retry for element assertions.
 - Handle parallel execution.
-- Cross-browser: supports Chrome, Firefox, and Edge.
+- Supports Chrome, Firefox, and Edge.
 - Screenshot of each failed assertion for Allure report.
 
 
