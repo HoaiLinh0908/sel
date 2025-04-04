@@ -29,7 +29,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      BROWSER: ${{ github.event.inputs.browser }}
+      BROWSER: ${{ github.event.inputs.browser || 'chrome' }}
       TESTS: ${{ github.event.inputs.tests }}
       TESTS_SUITE: ${{ github.event.inputs.tests_suite }}
     steps:
