@@ -1,7 +1,7 @@
 package com.senelium.assertion.core;
 
-import com.senelium.element.Element;
 import com.senelium.element.CustomExpectedConditions;
+import com.senelium.element.Element;
 import lombok.Getter;
 import lombok.Setter;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -31,19 +31,19 @@ public class ElementAssertion extends Assertion {
                 .execute();
     }
 
-    public void toBeInvisible() {
-        toBeInvisible("", null);
+    public void toBeHidden() {
+        toBeHidden("", null);
     }
 
-    public void toBeInvisible(String message) {
-        toBeInvisible(message, null);
+    public void toBeHidden(String message) {
+        toBeHidden(message, null);
     }
 
-    public void toBeInvisible(Integer timeout) {
-        toBeInvisible("", timeout);
+    public void toBeHidden(Integer timeout) {
+        toBeHidden("", timeout);
     }
 
-    public void toBeInvisible(String message, Integer timeout) {
+    public void toBeHidden(String message, Integer timeout) {
         this.builder().condition(ExpectedConditions.invisibilityOfElementLocated(element.getLocator()))
                 .timeout(timeout)
                 .message(new AssertMessage("%s\nElement [%s] is expected to be invisible but found visible.".formatted(message, element.getLocator()),
@@ -250,6 +250,46 @@ public class ElementAssertion extends Assertion {
                 .timeout(timeout)
                 .message(new AssertMessage("%s\nElement [%s] is expected to be not existing in the DOM but existing.".formatted(message, element.getLocator()),
                         "not presenting in the DOM", "presenting in the DOM"))
+                .execute();
+    }
+
+    public void toBeInViewport() {
+        this.toBeInViewport("", null);
+    }
+
+    public void toBeInViewport(String message) {
+        this.toBeInViewport(message, null);
+    }
+
+    public void toBeInViewport(Integer timeout) {
+        this.toBeInViewport("", timeout);
+    }
+
+    public void toBeInViewport(String message, Integer timeout) {
+        this.builder().condition(CustomExpectedConditions.withinViewport(element.getLocator()))
+                .timeout(timeout)
+                .message(new AssertMessage("%s\nElement [%s] is not in the viewport.".formatted(message, element.getLocator()),
+                        "Included in the viewport", "Not included in the viewport"))
+                .execute();
+    }
+
+    public void toBeNotInViewport() {
+        this.toBeNotInViewport("", null);
+    }
+
+    public void toBeNotInViewport(String message) {
+        this.toBeNotInViewport(message, null);
+    }
+
+    public void toBeNotInViewport(Integer timeout) {
+        this.toBeNotInViewport("", timeout);
+    }
+
+    public void toBeNotInViewport(String message, Integer timeout) {
+        this.builder().condition(ExpectedConditions.not(CustomExpectedConditions.withinViewport(element.getLocator())))
+                .timeout(timeout)
+                .message(new AssertMessage("%s\nElement [%s] is in the viewport.".formatted(message, element.getLocator()),
+                        "Not included in the viewport", "Included in the viewport"))
                 .execute();
     }
 }

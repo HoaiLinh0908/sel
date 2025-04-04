@@ -33,7 +33,7 @@ public class DynamicControlsPage {
     }
 
     public void expectCheckboxToInvisible() {
-        SelAssert.element(checkbox).toBeInvisible();
+        SelAssert.element(checkbox).toBeHidden();
     }
 
     public void enableTextBox() {

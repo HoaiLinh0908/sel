@@ -11,7 +11,7 @@ public class FileUploadTests extends TheInternetTestBase {
     @Test
     void testUploadFileWithFileInput() {
         homePage.openPage("File Upload");
-        fileUploaderPage.uploadFile(FileUtils.getCwd() + "/src/main/resources/" + fileName);
+        fileUploaderPage.uploadFile(FileUtils.getUploadFilePath(fileName));
         fileUploaderPage.shouldUploadedSectionContain(fileName);
     }
 

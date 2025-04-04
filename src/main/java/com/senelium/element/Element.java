@@ -255,6 +255,7 @@ public class Element {
         Sel.executeJavascript(String.format("arguments[0].value = \"%s\";", value), findVisibleElement());
     }
 
+    //TODO: Scroll if needed?
     public void scrollToView() {
         actions().scrollToElement(findVisibleElement()).perform();
     }

@@ -1,5 +1,6 @@
 package com.senelium.utils;
 
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public abstract class FileUtils {
@@ -13,5 +14,9 @@ public abstract class FileUtils {
 
     public static String getCwd() {
         return System.getProperty("user.dir");
+    }
+
+    public static String getUploadFilePath(String fileName) {
+        return Path.of(getCwd(), "src", "test", "resources", fileName).toString();
     }
 }

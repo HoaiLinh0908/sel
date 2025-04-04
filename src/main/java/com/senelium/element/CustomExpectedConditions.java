@@ -49,4 +49,29 @@ public class CustomExpectedConditions {
     public static ExpectedCondition<Boolean> imageIsVisible(WebElement element) {
         return ExpectedConditions.not(ExpectedConditions.domPropertyToBe(element, "naturalWidth", "0"));
     }
+
+    public static ExpectedCondition<Boolean> withinViewport(By locator) {
+        return new ExpectedCondition<>() {
+            @Override
+            public Boolean apply(WebDriver driver) {
+                return (Boolean) ((JavascriptExecutor) driver).executeScript("""
+                                let elem = arguments[0],
+                                box = elem.getBoundingClientRect(),
+                                cx = box.left + box.width / 2,
+                                cy = box.top + box.height / 2,
+                                e = document.elementFromPoint(cx, cy);
+                                for (; e; e = e.parentElement) {
+                                  if (e === elem)
+                                    return true;
+                                }
+                                return false;
+                                """
+                        , driver.findElement(locator));
+            }
+            @Override
+            public String toString() {
+                return "element within viewport: " + locator;
+            }
+        };
+    }
 }

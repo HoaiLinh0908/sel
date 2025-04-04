@@ -31,5 +31,5 @@ Element message = Element.byId("#message");
 button.click();
 
 //Auto retry until the element is visible.
-SelAssert.expect(message).toBeVisible();
+SelAssert.element(message).toBeVisible();
 ```

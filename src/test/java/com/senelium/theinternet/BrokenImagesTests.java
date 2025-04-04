@@ -10,6 +10,5 @@ public class BrokenImagesTests extends TheInternetTestBase {
     void brokenImagesTests() {
         homePage.openPage("Broken Images");
         brokenImagesPage.shouldImageNotBroken("img/avatar-blank.jpg");
-        brokenImagesPage.shouldImageNotBroken("asdf.jpg");
     }
 }

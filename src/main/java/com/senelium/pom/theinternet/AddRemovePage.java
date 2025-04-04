@@ -25,6 +25,6 @@ public class AddRemovePage {
     }
 
     public void shouldDeleteButtonNotVisible() {
-        SelAssert.element(this.deleteButton).toBeInvisible();
+        SelAssert.element(this.deleteButton).toBeHidden();
     }
 }
