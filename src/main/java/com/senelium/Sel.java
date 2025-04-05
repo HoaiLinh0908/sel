@@ -138,11 +138,19 @@ public class Sel {
         getActions().scrollToElement(element).perform();
     }
 
-    public static void switchToFrame(int index) {
+    public static void toFrame(int index) {
         webDriver().switchTo().frame(index);
     }
 
-    public static void switchToMainWindow() {
+    public static void toFrame(String nameOrId) {
+        webDriver().switchTo().frame(nameOrId);
+    }
+
+    public static void toFrame(WebElement frameElement) {
+        webDriver().switchTo().frame(frameElement);
+    }
+
+    public static void switchToMainDocument() {
         webDriver().switchTo().defaultContent();
     }
 }
