@@ -23,7 +23,7 @@ public interface DriverFactory<T extends MutableCapabilities> {
             if (config.isWindowMaximize()) setWindowSize(webDriver);
         }
         webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60));
-        return SelDriver.newInstance(webDriver, config.getTimeout());
+        return SelDriver.newInstance(webDriver, config);
     }
 
     void setHeadless(T caps);

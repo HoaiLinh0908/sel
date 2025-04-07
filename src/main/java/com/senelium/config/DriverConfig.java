@@ -19,8 +19,7 @@ public class DriverConfig {
     private final boolean windowMaximize;
     private final String binary;
 
-    // Reading system properties is a minor task, apply Singleton is not necessary
-    public DriverConfig() {
+    private DriverConfig() {
         this.browser = System.getProperty("browser", "chrome");
         this.remoteURL = System.getProperty("remoteURL", "");
         this.headless = Boolean.parseBoolean(System.getProperty("headless", "true"));
@@ -33,6 +32,7 @@ public class DriverConfig {
         this.capabilities = this.getDefaultCapabilities();
     }
 
+    // This method returns the default configuration, use Sel.getDriverConfig() to get the current driver configuration.
     public static DriverConfig getInfo() {
         return new DriverConfig();
     }

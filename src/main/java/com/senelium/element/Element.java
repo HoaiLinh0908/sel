@@ -426,10 +426,10 @@ public class Element {
     }
 
     private WebDriverWait waiter(Integer timeout) {
-        return timeout != null ? Sel.getWaiter(timeout) : Sel.getDefaultWaiter();
+        return timeout != null ? Sel.waiter(timeout) : Sel.defaultWaiter();
     }
 
     private Actions actions() {
-        return Sel.getActions();
+        return Sel.actions();
     }
 }

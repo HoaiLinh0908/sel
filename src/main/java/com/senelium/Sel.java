@@ -39,17 +39,21 @@ public class Sel {
         return selDriver().getWebDriver();
     }
 
-    public static Actions getActions() {
+    public static Actions actions() {
         return selDriver().getActions();
     }
 
-    public static WebDriverWait getDefaultWaiter() {
+    public static WebDriverWait defaultWaiter() {
         return selDriver().getDefaultWaiter();
     }
 
-    public static WebDriverWait getWaiter(int mil) {
+    public static WebDriverWait waiter(int mil) {
         if (mil < 0) throw new InvalidArgumentException("Waiter timeout must be or greater than 0.");
         return Sel.selDriver().getWaiter(Duration.ofMillis(mil));
+    }
+
+    public static DriverConfig driverConfig() {
+        return selDriver().getDriverConfig();
     }
 
     public static void open(String url) {
@@ -70,7 +74,6 @@ public class Sel {
     }
 
     public static void closeBrowser() {
-        log.info("Quit the driver");
         webDriver().quit();
         threadWebDriver.remove();
     }
@@ -112,11 +115,11 @@ public class Sel {
     }
 
     public static Alert toAlert() {
-        return Sel.getDefaultWaiter().until(ExpectedConditions.alertIsPresent());
+        return Sel.defaultWaiter().until(ExpectedConditions.alertIsPresent());
     }
 
     public static Alert toAlert(int timeout) {
-        return Sel.getWaiter(timeout).until(ExpectedConditions.alertIsPresent());
+        return Sel.waiter(timeout).until(ExpectedConditions.alertIsPresent());
     }
 
     public static Object executeJavascript(String script, Object... args) {
@@ -135,7 +138,7 @@ public class Sel {
     }
 
     public static void scrollToElement(WebElement element) {
-        getActions().scrollToElement(element).perform();
+        actions().scrollToElement(element).perform();
     }
 
     public static void toFrame(int index) {
@@ -152,5 +155,13 @@ public class Sel {
 
     public static void switchToMainDocument() {
         webDriver().switchTo().defaultContent();
+    }
+
+    public static void sendKey(Keys key) {
+        actions().sendKeys(key).perform();
+    }
+
+    public static void sendKeys(String keys) {
+        actions().sendKeys(keys).perform();
     }
 }

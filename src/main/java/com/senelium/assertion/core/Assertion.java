@@ -42,7 +42,7 @@ public abstract class Assertion {
     }
 
     protected WebDriverWait waiter(Integer mil) {
-        return mil != null ? Sel.getWaiter(mil) : Sel.getDefaultWaiter();
+        return mil != null ? Sel.waiter(mil) : Sel.defaultWaiter();
     }
 
     protected void toBe(ExpectedCondition<?> expectedCondition, Integer timeout, AssertMessage message) {

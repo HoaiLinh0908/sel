@@ -1,7 +1,6 @@
 package com.senelium.assertion.core;
 
 import com.senelium.Sel;
-import com.senelium.config.DriverConfig;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,7 +29,7 @@ public class FileAssertion extends Assertion {
     }
 
     public void toBeExisting(int timeout, String message) {
-        var interval = DriverConfig.getInfo().getTimeout().getInterval();
+        var interval = Sel.driverConfig().getTimeout().getInterval();
         var remain = timeout;
         var fileExists = false;
         var file = new File(this.path);
