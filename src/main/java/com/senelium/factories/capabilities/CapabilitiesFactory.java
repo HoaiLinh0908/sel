@@ -7,12 +7,12 @@ import org.openqa.selenium.logging.LoggingPreferences;
 import java.util.logging.Level;
 
 @FunctionalInterface
-public interface CapabilitiesFactory {
+public interface CapabilitiesFactory<T extends MutableCapabilities> {
     default LoggingPreferences getLoggingPreferences() {
         var logPref = new LoggingPreferences();
         logPref.enable(LogType.PERFORMANCE, Level.ALL);
         return logPref;
     }
 
-    MutableCapabilities createCapabilities();
+    T createCapabilities();
 }

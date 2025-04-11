@@ -6,7 +6,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ChromeCapsFactory implements CapabilitiesFactory {
+public class ChromeCapsFactory implements CapabilitiesFactory<ChromeOptions> {
 
     @Override
     public ChromeOptions createCapabilities() {
@@ -22,6 +22,7 @@ public class ChromeCapsFactory implements CapabilitiesFactory {
         Map<String, Object> prefs = new HashMap<>();
         prefs.put("download.default_directory", FileUtils.getDownloadDir());
         options.setExperimentalOption("prefs", prefs);
+        options.setEnableDownloads(true); // For files download in Grid
         return options;
     }
 }

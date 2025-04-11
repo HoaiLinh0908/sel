@@ -2,6 +2,7 @@ package com.senelium.factories.capabilities.manager;
 
 import com.senelium.factories.capabilities.CapabilitiesFactory;
 import com.senelium.factories.capabilities.ChromeCapsFactory;
+import com.senelium.factories.capabilities.EdgeCapsFactory;
 import com.senelium.factories.capabilities.FirefoxCapsFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.MutableCapabilities;
@@ -12,12 +13,13 @@ import java.util.function.Supplier;
 
 @Slf4j
 public class CapsFactoryManager {
-    private final Map<String, Supplier<CapabilitiesFactory>> factories;
+    private final Map<String, Supplier<CapabilitiesFactory<? extends MutableCapabilities>>> factories;
 
     private CapsFactoryManager() {
         factories = new HashMap<>();
         factories.put("chrome", ChromeCapsFactory::new);
         factories.put("firefox", FirefoxCapsFactory::new);
+        factories.put("edge", EdgeCapsFactory::new);
     }
 
     private final static class InstanceHolder {
@@ -28,8 +30,8 @@ public class CapsFactoryManager {
         return InstanceHolder.instance;
     }
 
-    public static CapabilitiesFactory findFactory(String browser) {
-        Supplier<CapabilitiesFactory> temp = getFactories().get(browser);
+    public static CapabilitiesFactory<? extends MutableCapabilities> findFactory(String browser) {
+        Supplier<CapabilitiesFactory<? extends MutableCapabilities>> temp = getFactories().get(browser);
         if (temp == null) {
             log.warn(String.format("No available Capabilities factory for \"%s\". " +
                             "Will return a MutableCapabilities object. " +
@@ -41,14 +43,14 @@ public class CapsFactoryManager {
         return temp.get();
     }
 
-    public static synchronized void registerFactory(String key, Supplier<CapabilitiesFactory> supplier) {
+    public static synchronized void registerFactory(String key, Supplier<CapabilitiesFactory<? extends MutableCapabilities>> supplier) {
         if (getFactories().containsKey(key.toLowerCase())) {
             throw new RuntimeException("The key \"" + key + "\" already exists. Existing key(s) are" + getAvailableFactory());
         }
         getFactories().put(key, supplier);
     }
 
-    private static Map<String, Supplier<CapabilitiesFactory>> getFactories() {
+    private static Map<String, Supplier<CapabilitiesFactory<? extends MutableCapabilities>>> getFactories() {
         return getInstance().factories;
     }
 
