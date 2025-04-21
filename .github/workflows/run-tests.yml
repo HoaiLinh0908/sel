@@ -66,7 +66,7 @@ jobs:
             sleep 5
           done
           # after the loop
-          if ! curl -s http://localhost:4444/status | grep -q '"ready":true'; then
+          if ! curl -s http://localhost:4444/status | grep -q '"ready": true'; then
             echo "❌ Selenium Grid failed to start" >&2
             exit 1
           fi
