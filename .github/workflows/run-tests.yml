@@ -71,7 +71,7 @@ jobs:
           elif [ "TESTS_SUITE" != "" ]; then
             mvn clean test -DsuiteXmlFile="$TESTS_SUITE" -Dbrowser="$BROWSER" -DremoteURL="$SELENIUM_GRID_URL"
           else
-            mvn clean test -DremoteURL="$SELENIUM_GRID_URL"
+            mvn clean test -Dparallel=classes -DthreadCount=2 -DremoteURL="$SELENIUM_GRID_URL"
           fi
 
       - name: Install Allure
