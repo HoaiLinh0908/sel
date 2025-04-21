@@ -32,6 +32,7 @@ jobs:
       BROWSER: ${{ github.event.inputs.browser || 'chrome' }}
       TESTS: ${{ github.event.inputs.tests }}
       TESTS_SUITE: ${{ github.event.inputs.tests_suite }}
+      SELENIUM_GRID_URL: http://localhost:4444/
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -50,17 +51,39 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+
+      - name: Start Selenium Grid
+        run: |
+          docker compose -f docker-compose.yml up -d
+          echo "Waiting for Selenium Grid to be ready..."
+          for i in {1..10}; do
+            if curl -s http://localhost:4444/status | grep -q '"ready":true'; then
+              echo "Grid is ready" && break
+            fi
+            echo "Waiting for Grid..."
+            sleep 5
+          done
+          # after the loop
+          if ! curl -s http://localhost:4444/status | grep -q '"ready":true'; then
+            echo "❌ Selenium Grid failed to start" >&2
+            exit 1
+          fi
+
       - name: Install dependencies
         run: mvn install -DskipTests
 
       - name: Run Tests
         run: |
           if [ "$TESTS" != "" ]; then
-            mvn clean -Dtest=$TESTS -Dbrowser=$BROWSER test
+            mvn clean -Dtest=$TESTS -Dbrowser=$BROWSER test -DremoteURL="$SELENIUM_GRID_URL"
           elif [ "TESTS_SUITE" != "" ]; then
-            mvn clean test -DsuiteXmlFile=TESTS_SUITE -Dbrowser=$BROWSER
+            mvn clean test -DsuiteXmlFile="$TESTS_SUITE" -Dbrowser="$BROWSER" -DremoteURL="$SELENIUM_GRID_URL"
           else
-            mvn clean test
+            mvn clean test -DremoteURL="$SELENIUM_GRID_URL"
           fi
 
       - name: Install Allure
