@@ -57,19 +57,20 @@ jobs:
       - name: Start Selenium Grid
         run: |
           docker compose -f docker-compose.yml up -d
-          echo "Waiting for Selenium Grid to be ready..."
+          echo "Waiting for Selenium Grid…"
           for i in {1..10}; do
-            if curl -s http://localhost:4444/status | grep -q '"ready": true'; then
-              echo "Grid is ready" && break
+            resp=$(curl -s http://localhost:4444/status)
+            echo "Attempt $i response: $resp"
+            if echo "$resp" | grep -q '"ready": true'; then
+              echo "✅ Grid is ready"
+              exit 0
             fi
-            echo "Waiting for Grid..."
+            echo "  ↳ not ready yet, retrying in 5s…"
             sleep 5
           done
-          # after the loop
-          if ! curl -s http://localhost:4444/status | grep -q '"ready": true'; then
-            echo "❌ Selenium Grid failed to start" >&2
-            exit 1
-          fi
+          echo "❌ Grid failed to start. Last response:"
+          echo "$resp"
+          exit 1
 
       - name: Install dependencies
         run: mvn install -DskipTests
