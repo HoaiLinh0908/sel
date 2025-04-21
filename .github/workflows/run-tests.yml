@@ -57,7 +57,7 @@ jobs:
       - name: Start Selenium Grid
         env:
           SELENIUM_STATUS_URL: http://localhost:4444/status
-        run: ../../scripts/wait_for_grid_start.sh
+        run: ./scripts/wait_for_grid_start.sh
 
       - name: Install dependencies
         run: mvn install -DskipTests
