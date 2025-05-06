@@ -23,7 +23,7 @@ public class Sel {
     }
 
     public static void createDriver(DriverConfig config) {
-        DriverFactory<?> driverFactory = DriverFactoryManager.findFactory(config.getBrowser());
+        DriverFactory<?> driverFactory = DriverFactoryManager.findFactory(config.browser());
         threadWebDriver.set(driverFactory.createDriver(config));
         log.info("Successfully created driver with configuration {}", config);
     }

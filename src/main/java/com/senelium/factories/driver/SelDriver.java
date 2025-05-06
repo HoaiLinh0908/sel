@@ -22,8 +22,8 @@ public class SelDriver {
         this.driverConfig = config;
         this.defaultWaiter = new WebDriverWait(
                 this.driver,
-                Duration.ofMillis(config.getTimeout().getElementWait()),
-                Duration.ofMillis(config.getTimeout().getInterval())
+                Duration.ofMillis(config.timeout().elementWait()),
+                Duration.ofMillis(config.timeout().interval())
         );
     }
 
@@ -44,7 +44,7 @@ public class SelDriver {
     }
 
     public WebDriverWait getWaiter(Duration timeout) {
-        return new WebDriverWait(driver, timeout, Duration.ofMillis(this.driverConfig.getTimeout().getInterval()));
+        return new WebDriverWait(driver, timeout, Duration.ofMillis(this.driverConfig.timeout().interval()));
     }
 
     public WebDriverWait getWaiter(Duration timeout, Duration interval) {

@@ -29,7 +29,7 @@ public class FileAssertion extends Assertion {
     }
 
     public void toBeExisting(int timeout, String message) {
-        var interval = Sel.driverConfig().getTimeout().getInterval();
+        var interval = Sel.driverConfig().timeout().interval();
         var remain = timeout;
         var fileExists = false;
         var file = new File(this.path);

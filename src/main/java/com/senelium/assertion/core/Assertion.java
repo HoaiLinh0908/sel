@@ -1,7 +1,6 @@
 package com.senelium.assertion.core;
 
 import com.senelium.Sel;
-import com.senelium.config.DriverConfig;
 import com.senelium.reports.AllureReport;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,7 +37,7 @@ public abstract class Assertion {
     }
 
     private int getDefaultTimeout() {
-        return DriverConfig.getInfo().getTimeout().getElementWait();
+        return Sel.driverConfig().timeout().elementWait();
     }
 
     protected WebDriverWait waiter(Integer mil) {

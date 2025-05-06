@@ -12,16 +12,16 @@ import java.time.Duration;
 public interface DriverFactory<T extends MutableCapabilities> {
 
     default SelDriver createDriver(DriverConfig config) {
-        T caps = (T) config.getCapabilities();
-        if (config.isHeadless()) setHeadless(caps);
+        T caps = (T) config.capabilities();
+        if (config.headless()) setHeadless(caps);
         //setPageLoadTimeout(caps, config.getTimeout().getPageLoad());
 
         WebDriver webDriver;
-        if (!config.getRemoteURL().isEmpty()) {
+        if (!config.remoteURL().isEmpty()) {
             webDriver = createRemoteWebDriver(config.getRemoteAddress(), caps);
         } else {
-            webDriver = createLocalWebDriver(caps, config.getBinary());
-            if (config.isWindowMaximize()) setWindowSize(webDriver);
+            webDriver = createLocalWebDriver(caps, config.binary());
+            if (config.windowMaximize()) setWindowSize(webDriver);
         }
         webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60));
         return SelDriver.newInstance(webDriver, config);
