@@ -1,7 +1,7 @@
 package com.senelium.assertion.core;
 
 import com.senelium.Sel;
-import com.senelium.reports.AllureReport;
+import com.senelium.reports.SelReport;
 import lombok.Getter;
 import lombok.Setter;
 import org.openqa.selenium.TimeoutException;
@@ -23,7 +23,7 @@ public abstract class Assertion {
     }
 
     protected void onFailedCheck(String message) {
-        AllureReport.takeScreenshot();
+        SelReport.takeScreenshot();
         if (!this.isSoft) {
             throw new AssertionError(message);
         }

@@ -11,10 +11,11 @@ Sel is a personal Selenium framework with the following implementations:
 - Screenshot of each failed assertion for Allure report.
 
 
-## Prerequisites 🛠️
+## Tools 🛠️
 - Java 21
-- Maven
 - Selenium WebDriver 4
+- Maven
+- TestNG
 
 ## Write tests 📝 
 ```java
@@ -25,11 +26,8 @@ Sel.createDriver(driverConfig);
 Sel.open("https://yoursample.com");
 
 Element button = Element.byCssSelector("button");
+button.click(); //Auto-wait until the button is clickable.
+
 Element message = Element.byId("#message");
-
-//Auto-wait until the button is clickable.
-button.click();
-
-//Auto retry until the element is visible.
-SelAssert.element(message).toBeVisible();
+SelAssert.element(message).toBeVisible(); //Auto retry until the element is visible.
 ```

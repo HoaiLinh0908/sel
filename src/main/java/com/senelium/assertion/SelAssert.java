@@ -4,7 +4,7 @@ import com.senelium.assertion.core.AlertAssertion;
 import com.senelium.assertion.core.ElementAssertion;
 import com.senelium.assertion.core.FileAssertion;
 import com.senelium.element.Element;
-import com.senelium.reports.AllureReport;
+import com.senelium.reports.SelReport;
 
 public class SelAssert {
     // Store in ThreadLocal to reduce the number of created objects.
@@ -54,7 +54,8 @@ public class SelAssert {
     }
 
     private static void onFailedCheck(String message) {
-        AllureReport.takeScreenshot();
+        SelReport.takeScreenshot();
+        SelReport.attachLog(message);
         throw new AssertionError(message);
     }
 
