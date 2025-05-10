@@ -6,8 +6,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class AlertAssertion extends Assertion {
 
-    public AlertAssertion(boolean isSoft) {
-        super(isSoft);
+    public AlertAssertion() {
+        super(false);
     }
 
     public void toBeVisible() {

@@ -1,13 +1,12 @@
 package com.senelium;
 
+import com.senelium.assertion.SelAssert;
 import com.senelium.config.DomainInfo;
 import com.senelium.config.DriverConfig;
 import com.senelium.listener.TestListener;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.Credentials;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Listeners;
+import org.testng.annotations.*;
 
 @Slf4j
 @Listeners(TestListener.class)
@@ -40,12 +39,12 @@ public class TestBase {
         return config;
     }
 
-    // Override this method if you tests need different driver configurations
+    // Override this method if your tests need different driver configurations
     protected void updateDriverConfig(DriverConfig config) {
         // Nothing here
     }
 
-    protected DomainInfo getDomainInfo() {
+    private DomainInfo getDomainInfo() {
         var info = DomainInfo.getInfo();
         updateDomainInfo(info);
         return info;

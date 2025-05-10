@@ -4,15 +4,17 @@ import com.senelium.element.CustomExpectedConditions;
 import com.senelium.element.Element;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 @Getter
 @Setter
+@Accessors(fluent = true)
 public class ElementAssertion extends Assertion {
     private Element element;
 
-    public ElementAssertion(boolean isSoft) {
-        super(isSoft);
+    public ElementAssertion() {
+        super(false);
     }
 
     public void toBeVisible() {
@@ -236,7 +238,7 @@ public class ElementAssertion extends Assertion {
     }
 
     public void toBeNotExisting(String message) {
-        toBeExisting(message, null);
+        toBeNotExisting(message, null);
     }
 
     public void toBeNotExisting(Integer timeout) {

@@ -3,17 +3,19 @@ package com.senelium.assertion.core;
 import com.senelium.Sel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import java.io.File;
 
 @Getter
 @Setter
+@Accessors(fluent = true)
 public class FileAssertion extends Assertion {
     private static final int DEFAULT_TIMEOUT = 150000;
     private String path;
 
-    public FileAssertion(boolean isSoft) {
-        super(isSoft);
+    public FileAssertion() {
+        super(false);
     }
 
     public void toBeExisting() {

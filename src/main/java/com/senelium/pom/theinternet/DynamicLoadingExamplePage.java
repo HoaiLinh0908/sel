@@ -1,6 +1,7 @@
 package com.senelium.pom.theinternet;
 
 import com.senelium.assertion.SelAssert;
+import com.senelium.constant.AssertType;
 import com.senelium.element.Element;
 import io.qameta.allure.Step;
 
@@ -20,7 +21,7 @@ public class DynamicLoadingExamplePage {
 
     @Step("Verify the Finish section exist")
     public void expectFinishSectionExist() {
-        SelAssert.element(finishSection).toBeExisting("The Finish section does not exist in the DOM");
+        SelAssert.element(finishSection, AssertType.SOFT).toBeExisting("The Finish section does not exist in the DOM");
     }
 
     @Step("Verify the Finish section does not exist")
@@ -30,6 +31,6 @@ public class DynamicLoadingExamplePage {
 
     @Step("Verify the Finish section is visible")
     public void expectFinishSectionVisible() {
-        SelAssert.element(finishSection).toBeVisible("The Finish section is not visible!", 10000);
+        SelAssert.element(finishSection, AssertType.SOFT).toBeVisible("The Finish section is not visible!", 10000);
     }
 }
