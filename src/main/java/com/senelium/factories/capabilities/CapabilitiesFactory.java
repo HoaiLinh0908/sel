@@ -11,6 +11,7 @@ public interface CapabilitiesFactory<T extends MutableCapabilities> {
     default LoggingPreferences getLoggingPreferences() {
         var logPref = new LoggingPreferences();
         logPref.enable(LogType.PERFORMANCE, Level.ALL);
+        logPref.enable(LogType.BROWSER, Level.ALL);
         return logPref;
     }
 
