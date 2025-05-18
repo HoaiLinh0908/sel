@@ -42,7 +42,7 @@ jobs:
               echo 'matrix=["chrome","firefox","edge"]' >> $GITHUB_OUTPUT
             fi
 
-  test:
+  run-tests:
     runs-on: ubuntu-latest
     needs: set-matrix
     strategy:

@@ -9,7 +9,7 @@ services:
       - "4444:4444"
 
   node-1:
-    image: selenium/node-chrome:4.29.0
+    image: selenium/node-${BROWSER}:4.29.0
     platform: linux/amd64
     shm_size: 2gb
     depends_on:
@@ -19,7 +19,7 @@ services:
       - SE_NODE_ENABLE_MANAGED_DOWNLOADS=true
 
   node-2:
-    image: selenium/node-chrome:4.29.0
+    image: selenium/node-${BROWSER}:4.29.0
     platform: linux/amd64
     shm_size: 2gb
     depends_on:
