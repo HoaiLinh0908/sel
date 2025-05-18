@@ -32,8 +32,9 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.set_browser.outputs.matrix }}
-      steps:
-        - id: set_browser
+    steps:
+        - name: Set browser matrix
+          id: set_browser
           run: |
             if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ github.event.inputs.browser }}" != "all" ]]; then
               echo "matrix=[\"${{ github.event.inputs.browser }}\"]" >> $GITHUB_OUTPUT
@@ -51,7 +52,7 @@ jobs:
       BROWSER: ${{ matrix.browser }}
       TESTS: ${{ github.event.inputs.tests }}
       TESTS_SUITE: ${{ github.event.inputs.tests_suite }}
-      SELENIUM_GRID_URL: http://localhost:4444/
+      SELENIUM_GRID_URL: http://localhost:4444
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -75,19 +76,19 @@ jobs:
 
       - name: Start Selenium Grid
         env:
-          SELENIUM_STATUS_URL: http://localhost:4444/status
+          SELENIUM_STATUS_URL: ${{ env.SELENIUM_GRID_URL }}/status
         run: |
           chmod +x scripts/check_grid_start.sh
           scripts/check_grid_start.sh
 
-      - name: Install dependencies
-        run: mvn install -DskipTests
-
       - name: Run Tests
         run: |
+          echo "TESTS: $TESTS"
+          echo "TESTS_SUITE: $TESTS_SUITE"
+          echo "BROWSER: $BROWSER"
           if [ "$TESTS" != "" ]; then
             mvn clean -Dtest=$TESTS -Dbrowser=$BROWSER test -DremoteURL="$SELENIUM_GRID_URL"
-          elif [ "TESTS_SUITE" != "" ]; then
+          elif [ "$TESTS_SUITE" != "" ]; then
             mvn clean test -DsuiteXmlFile="$TESTS_SUITE" -Dbrowser="$BROWSER" -DremoteURL="$SELENIUM_GRID_URL"
           else
             mvn clean test -Dparallel=classes -DthreadCount=2 -DremoteURL="$SELENIUM_GRID_URL"
