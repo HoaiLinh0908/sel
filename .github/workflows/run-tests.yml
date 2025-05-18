@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - development
-      - run-test
 
   workflow_dispatch:
     inputs:
@@ -88,9 +87,9 @@ jobs:
           echo "TESTS_SUITE: $TESTS_SUITE"
           echo "BROWSER: $BROWSER"
           if [ "$TESTS" != "" ]; then
-            mvn clean -Dtest=$TESTS -Dbrowser=$BROWSER test -DremoteURL="$SELENIUM_GRID_URL"
+            mvn clean -Dtest=$TESTS test -DremoteURL="$SELENIUM_GRID_URL"
           elif [ "$TESTS_SUITE" != "" ]; then
-            mvn clean test -DsuiteXmlFile="$TESTS_SUITE" -Dbrowser="$BROWSER" -DremoteURL="$SELENIUM_GRID_URL"
+            mvn clean test -DsuiteXmlFile="$TESTS_SUITE" -DremoteURL="$SELENIUM_GRID_URL"
           else
             mvn clean test -Dparallel=classes -DthreadCount=2 -DremoteURL="$SELENIUM_GRID_URL"
           fi
