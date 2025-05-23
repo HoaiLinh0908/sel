@@ -1,5 +1,6 @@
 package com.senelium.factories.driver;
 
+import com.senelium.config.DriverConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -26,5 +27,10 @@ public class ChromeDriverFactory implements DriverFactory<ChromeOptions> {
             options.setBinary(binary);
         }
         return new ChromeDriver(options);
+    }
+
+    @Override
+    public void setWindowSize(ChromeOptions options, DriverConfig config) {
+        options.addArguments("--window-size=%d,%d".formatted(config.windowSize().width, config.windowSize().height));
     }
 }

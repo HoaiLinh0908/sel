@@ -70,9 +70,13 @@ public class Element {
         return this.locator;
     }
 
-    public Element getChild(By childLocator) {
+    public Element locateChild(By childLocator) {
         By fullChildLocator = new ByChained(this.locator, childLocator);
         return Element.by(fullChildLocator);
+    }
+
+    public Element locateChildByCssSelector(String cssSelector) {
+        return this.locateChild(By.cssSelector(cssSelector));
     }
 
     public WebElement findElement() {
@@ -261,7 +265,7 @@ public class Element {
     }
 
     public void hover() {
-        actions().moveToElement(findVisibleElement());
+        actions().moveToElement(findVisibleElement()).perform();
     }
 
     public void submitForm() {

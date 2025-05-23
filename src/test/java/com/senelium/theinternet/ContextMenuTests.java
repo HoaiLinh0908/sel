@@ -9,7 +9,7 @@ public class ContextMenuTests extends TheInternetTestBase {
 
     @Override
     public void updateDriverConfig(DriverConfig config) {
-        config.setWebDriverBiDi(false);
+        config.isBiDiEnabled(false);
     }
 
     @Test(description = "Test the Context Menu page")
