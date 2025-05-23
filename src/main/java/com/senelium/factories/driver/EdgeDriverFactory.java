@@ -1,6 +1,8 @@
 package com.senelium.factories.driver;
 
+import com.senelium.config.DriverConfig;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 
@@ -24,5 +26,10 @@ public class EdgeDriverFactory implements DriverFactory<EdgeOptions> {
             options.setBinary(binary);
         }
         return new EdgeDriver(options);
+    }
+
+    @Override
+    public void setWindowSize(EdgeOptions options, DriverConfig config) {
+        options.addArguments("--window-size=%d,%d".formatted(config.windowSize().width, config.windowSize().height));
     }
 }

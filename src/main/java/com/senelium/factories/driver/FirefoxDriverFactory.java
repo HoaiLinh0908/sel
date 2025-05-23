@@ -1,5 +1,6 @@
 package com.senelium.factories.driver;
 
+import com.senelium.config.DriverConfig;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
@@ -24,5 +25,11 @@ public class FirefoxDriverFactory implements DriverFactory<FirefoxOptions> {
             options.setBinary(binary);
         }
         return new FirefoxDriver(options);
+    }
+
+    @Override
+    public void setWindowSize(FirefoxOptions options, DriverConfig config) {
+        options.addArguments("--width=%d".formatted(config.windowSize().width));
+        options.addArguments("--height=%d".formatted(config.windowSize().height));
     }
 }

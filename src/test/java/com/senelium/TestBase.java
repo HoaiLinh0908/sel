@@ -1,6 +1,5 @@
 package com.senelium;
 
-import com.senelium.assertion.SelAssert;
 import com.senelium.config.DomainInfo;
 import com.senelium.config.DriverConfig;
 import com.senelium.listener.TestListener;
@@ -34,7 +33,7 @@ public class TestBase {
     }
 
     private DriverConfig getDriverConfig() {
-        var config = DriverConfig.getInfo();
+        var config = DriverConfig.defaultConfig();
         updateDriverConfig(config);
         return config;
     }

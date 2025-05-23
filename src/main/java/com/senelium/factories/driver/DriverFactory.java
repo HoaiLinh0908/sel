@@ -1,6 +1,8 @@
 package com.senelium.factories.driver;
 
 import com.senelium.config.DriverConfig;
+import com.senelium.utils.UrlUtils;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.LocalFileDetector;
@@ -9,21 +11,26 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import java.net.URL;
 import java.time.Duration;
 
+// TODO: Store properties instead of passing in methods
 public interface DriverFactory<T extends MutableCapabilities> {
 
     default SelDriver createDriver(DriverConfig config) {
         T caps = (T) config.capabilities();
-        if (config.headless()) setHeadless(caps);
-        //setPageLoadTimeout(caps, config.getTimeout().getPageLoad());
+        // Whether to enable WebDriver BiDi
+        this.enableBiDi(caps, config.isBiDiEnabled());
+        // Set the window resolution
+        this.setWindowSize(caps, config);
+        // Set headless mode
+        if (config.headless()) this.setHeadless(caps); // TODO: move conditional into setHeadless
+        // Set page load timeout
+        this.setPageLoadTimeout(caps, config.timeout().pageLoad());
 
         WebDriver webDriver;
         if (!config.remoteURL().isEmpty()) {
-            webDriver = createRemoteWebDriver(config.getRemoteAddress(), caps);
+            webDriver = this.createRemoteWebDriver(UrlUtils.newUrl(config.remoteURL()), caps);
         } else {
-            webDriver = createLocalWebDriver(caps, config.binary());
-            if (config.windowMaximize()) setWindowSize(webDriver);
+            webDriver = this.createLocalWebDriver(caps, config.binary());
         }
-        webDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60));
         return SelDriver.newInstance(webDriver, config);
     }
 
@@ -39,7 +46,9 @@ public interface DriverFactory<T extends MutableCapabilities> {
 
     WebDriver createLocalWebDriver(T caps, String binary);
 
-    default void setWindowSize(WebDriver driver) {
-        driver.manage().window().maximize();
+    void setWindowSize(T options, DriverConfig config);
+
+    default void enableBiDi(T options, boolean enabled) {
+        options.setCapability("webSocketUrl", enabled);
     }
 }

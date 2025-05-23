@@ -26,7 +26,7 @@ public class SelSelect {
     //TODO: adapt other methods in Selenium Select
 
     public Element getOptionWithText(String text) {
-        return element.getChild(By.xpath(".//option[normalize-space(.) = " + Quotes.escape(text) + "]"));
+        return element.locateChild(By.xpath(".//option[normalize-space(.) = " + Quotes.escape(text) + "]"));
     }
 
     public Element getElement() {
