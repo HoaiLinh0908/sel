@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @Getter
 public class Element {
-    private final By locator;
+    protected final By locator;
 
     public Element(By locator) {
         this.locator = locator;
@@ -218,7 +218,7 @@ public class Element {
         actions().contextClick(element).perform();
     }
 
-    private WebElement findClickableElement(Integer timeout) {
+    protected WebElement findClickableElement(Integer timeout) {
         return waiter(timeout).until(ExpectedConditions.elementToBeClickable(this.locator));
     }
 
@@ -425,15 +425,15 @@ public class Element {
         waiter(timeout).until(CustomExpectedConditions.elementToStopMoving(locator));
     }
 
-    private WebDriverWait waiter() {
+    protected WebDriverWait waiter() {
         return this.waiter(null);
     }
 
-    private WebDriverWait waiter(Integer timeout) {
+    protected WebDriverWait waiter(Integer timeout) {
         return timeout != null ? Sel.waiter(timeout) : Sel.defaultWaiter();
     }
 
-    private Actions actions() {
+    protected Actions actions() {
         return Sel.actions();
     }
 }
