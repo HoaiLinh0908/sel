@@ -14,6 +14,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class Sel {
@@ -78,7 +79,7 @@ public class Sel {
         threadWebDriver.remove();
     }
 
-    public static void closeCurrentTab() {
+    public static void closeWindow() {
         webDriver().close();
     }
 
@@ -88,6 +89,10 @@ public class Sel {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public static String getWindowTitle() {
+        return webDriver().getTitle();
     }
 
     public static void refresh() {
@@ -132,9 +137,47 @@ public class Sel {
         return jsExecutor.executeAsyncScript(script, args);
     }
 
-    public static void closeCurrentAndSwitchToNewTab() {
-        closeCurrentTab();
-        webDriver().switchTo().window(new ArrayList<>(webDriver().getWindowHandles()).get(0));
+    public static void openNewTabAndSwitchToIt() {
+        webDriver().switchTo().newWindow(WindowType.TAB);
+    }
+
+    public static void openNewWindowAndSwitchToIt() {
+        webDriver().switchTo().newWindow(WindowType.WINDOW);
+    }
+
+    public static void switchToWindow(String handle) {
+        webDriver().switchTo().window(handle);
+    }
+
+    public static String currentWindowHandle() {
+        return webDriver().getWindowHandle();
+    }
+
+    public static List<String> getWindowHandles() {
+        return new ArrayList<>(webDriver().getWindowHandles());
+    }
+
+    public static List<String> getWindowHandles(String title) {
+        var origin = currentWindowHandle();
+        var handles = webDriver().getWindowHandles();
+        var results = handles.stream().filter(h -> {
+            switchToWindow(h);
+            return getWindowTitle().equals(title);
+        }).collect(Collectors.toList());
+        // Switch back to the original window
+        switchToWindow(origin);
+        return results;
+    }
+
+    public static void switchToWindowWithTitle(String title) {
+        var handles = webDriver().getWindowHandles();
+        handles.stream()
+                .filter(h -> {
+                    switchToWindow(h);
+                    return getWindowTitle().equals(title);
+                })
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException("Cannot find any window with title %s".formatted(title)));
     }
 
     public static void scrollToElement(WebElement element) {
