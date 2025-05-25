@@ -1,10 +1,6 @@
-name: Run Selenium Tests
+name: Run Selenium Tests on Grid
 
 on:
-  push:
-    branches:
-      - development
-
   workflow_dispatch:
     inputs:
       tests:
@@ -52,6 +48,7 @@ jobs:
       BROWSER: ${{ matrix.browser }}
       TESTS: ${{ github.event.inputs.tests }}
       TESTS_SUITE: ${{ github.event.inputs.tests_suite }}
+      SELENIUM_GRID_URL: http://localhost:4444
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -73,17 +70,24 @@ jobs:
       - name: Install project deps
         run: mvn install -DskipTests
 
+      - name: Start Selenium Grid
+        env:
+          SELENIUM_STATUS_URL: ${{ env.SELENIUM_GRID_URL }}/status
+        run: |
+          chmod +x scripts/check_grid_start.sh
+          scripts/check_grid_start.sh
+
       - name: Run Tests
         run: |
           echo "TESTS: $TESTS"
           echo "TESTS_SUITE: $TESTS_SUITE"
           echo "BROWSER: $BROWSER"
           if [ "$TESTS" != "" ]; then
-            mvn clean -Dtest=$TESTS test
+            mvn clean -Dtest=$TESTS test -DremoteURL="$SELENIUM_GRID_URL"
           elif [ "$TESTS_SUITE" != "" ]; then
-            mvn clean test -DsuiteXmlFile="$TESTS_SUITE"
+            mvn clean test -DsuiteXmlFile="$TESTS_SUITE" -DremoteURL="$SELENIUM_GRID_URL"
           else
-            mvn clean test -Dparallel=classes -DthreadCount=2
+            mvn clean test -Dparallel=classes -DthreadCount=2 -DremoteURL="$SELENIUM_GRID_URL"
           fi
 
       - name: Install Allure
