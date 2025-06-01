@@ -32,7 +32,6 @@ public class DataTablesPage {
 
     public List<Person> getExampleOneTableData() {
         var data = this.tableOne.getTableData();
-        System.out.println(data);
         return data.stream().map(person -> new Person(
                 person.get("Last Name"),
                 person.get("First Name"),

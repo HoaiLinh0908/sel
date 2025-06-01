@@ -23,7 +23,7 @@ public class Table {
     }
 
     public List<Element> getHeaders() {
-        var numOfHeaders = this.headerRow.locateChildByCssSelector("th").countVisibleElements();
+        var numOfHeaders = this.headerRow.locateChildren(By.tagName("th")).countVisible();
         return IntStream.range(1, numOfHeaders + 1)
                 .mapToObj(index -> this.headerRow.locateChildByCssSelector("th:nth-of-type(%d)".formatted(index)))
                 .toList();
@@ -63,7 +63,7 @@ public class Table {
     }
 
     public List<Map<String, String>> getTableData() {
-        var numOfRows = this.body.locateChildByCssSelector("tr").countVisibleElements();
+        var numOfRows = this.body.locateChildren(By.tagName("tr")).countVisible();
         return IntStream.range(1, numOfRows + 1).mapToObj(this::getRowData).toList();
     }
 }

@@ -75,6 +75,11 @@ public class Element {
         return Element.by(fullChildLocator);
     }
 
+    public Elements locateChildren(By childrenLocator) {
+        By fullChildLocator = new ByChained(this.locator, childrenLocator);
+        return Elements.by(fullChildLocator);
+    }
+
     public Element locateChildByCssSelector(String cssSelector) {
         return this.locateChild(By.cssSelector(cssSelector));
     }
@@ -93,47 +98,6 @@ public class Element {
 
     public WebElement findVisibleElement(Integer timeout) {
         return waiter(timeout).until(ExpectedConditions.visibilityOfElementLocated(locator));
-    }
-
-    public List<WebElement> findElements() {
-        return findElements(null);
-    }
-
-    public List<WebElement> findElements(Integer timeout) {
-        try {
-            return waiter(timeout).until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
-        } catch (TimeoutException e) {
-            // Return an empty list instead of throwing TimeoutException
-            return Collections.emptyList();
-        }
-    }
-
-    public List<WebElement> findVisibleElements() {
-        return findVisibleElements(null);
-    }
-
-    // The ExpectedConditions.visibilityOfAllElementsLocatedBy() will throw TimeoutException if there is any invisible element.
-    // That is not what I expect. I expect a list of visible elements even there are some invisible elements on the DOM.
-    public List<WebElement> findVisibleElements(Integer timeout) {
-        List<WebElement> elements = findElements(timeout);
-        List<WebElement> visibleElements = new ArrayList<>();
-        for (WebElement element : elements) {
-            try {
-                waiter(timeout).until(ExpectedConditions.visibilityOf(element));
-                visibleElements.add(element);
-            } catch (TimeoutException ignored) {
-                // Ignore invisible elements
-            }
-        }
-        return visibleElements;
-    }
-
-    public int countVisibleElements() {
-        return countVisibleElements(null);
-    }
-
-    public int countVisibleElements(Integer timeout) {
-        return findVisibleElements(timeout).size();
     }
 
     public boolean isVisible() {
@@ -287,15 +251,6 @@ public class Element {
     // If 'force' is true then do not wait until visible
     public String getText(boolean force) {
         return force ? findElement().getText() : findVisibleElement().getText();
-    }
-
-    public List<String> getAllTexts() {
-        return getAllTexts(false);
-    }
-
-    public List<String> getAllTexts(boolean force) {
-        List<WebElement> elements = force ? findElements() : findVisibleElements();
-        return elements.stream().map(WebElement::getText).collect(Collectors.toList());
     }
 
     public String getValue() {
