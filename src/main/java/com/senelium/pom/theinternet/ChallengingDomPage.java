@@ -7,7 +7,7 @@ public class ChallengingDomPage {
     private final Table table;
 
     public ChallengingDomPage() {
-        table = new Table();
+        this.table = new Table();
     }
 
     public void shouldHeaderDisplay(String name) {
@@ -16,7 +16,7 @@ public class ChallengingDomPage {
     }
 
     public void shouldCellDisplayUnderHeader(String header, String cell) {
-        SelAssert.element(table.getCellOfHeader(header, cell))
+        SelAssert.element(table.getCell(header, cell))
                 .toBeVisible(String.format("Cell [%s] is not visible under header [%s]", cell, header));
     }
 }

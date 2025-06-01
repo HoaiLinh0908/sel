@@ -67,7 +67,7 @@ public class SelAssert {
     }
 
     public static <T> void assertEqual(T actual, T expected, String message) {
-        if (actual.equals(expected)) {
+        if (!actual.equals(expected)) {
             onFailedCheck(composeMessage(actual, expected, message));
         }
     }

@@ -17,6 +17,11 @@ public class ElementAssertion extends Assertion {
         super(false);
     }
 
+    public ElementAssertion(Element element, boolean isSoft) {
+        super(isSoft);
+        this.element = element;
+    }
+
     public void toBeVisible() {
         toBeVisible("");
     }
