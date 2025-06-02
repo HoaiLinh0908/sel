@@ -1,9 +1,6 @@
 package com.senelium.factories.capabilities.manager;
 
-import com.senelium.factories.capabilities.CapabilitiesFactory;
-import com.senelium.factories.capabilities.ChromeCapsFactory;
-import com.senelium.factories.capabilities.EdgeCapsFactory;
-import com.senelium.factories.capabilities.FirefoxCapsFactory;
+import com.senelium.factories.capabilities.*;
 import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.MutableCapabilities;
 
@@ -20,6 +17,7 @@ public class CapsFactoryManager {
         factories.put("chrome", ChromeCapsFactory::new);
         factories.put("firefox", FirefoxCapsFactory::new);
         factories.put("edge", EdgeCapsFactory::new);
+        factories.put("chromeMobile", ChromeMobileCapsFactory::new);
     }
 
     private final static class InstanceHolder {

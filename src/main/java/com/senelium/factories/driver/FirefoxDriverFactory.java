@@ -29,7 +29,7 @@ public class FirefoxDriverFactory implements DriverFactory<FirefoxOptions> {
 
     @Override
     public void setWindowSize(FirefoxOptions options, DriverConfig config) {
-        options.addArguments("--width=%d".formatted(config.windowSize().width));
-        options.addArguments("--height=%d".formatted(config.windowSize().height));
+//        options.addArguments("--width=%d".formatted(config.windowSize().width));
+//        options.addArguments("--height=%d".formatted(config.windowSize().height));
     }
 }

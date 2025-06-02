@@ -145,11 +145,10 @@ public class Element {
 
     public boolean isSelected(Integer timeout) {
         try {
-            waiter(timeout).until(ExpectedConditions.elementToBeSelected(this.locator));
+            return waiter(timeout).until(ExpectedConditions.elementToBeSelected(this.locator));
         } catch (TimeoutException e) {
             return false;
         }
-        return true;
     }
 
     public boolean isNotSelected() {
@@ -158,11 +157,10 @@ public class Element {
 
     public boolean isNotSelected(Integer timeout) {
         try {
-            waiter(timeout).until(ExpectedConditions.elementSelectionStateToBe(this.locator, false));
+            return waiter(timeout).until(ExpectedConditions.elementSelectionStateToBe(this.locator, false));
         } catch (TimeoutException e) {
             return false;
         }
-        return true;
     }
 
     public void click() {

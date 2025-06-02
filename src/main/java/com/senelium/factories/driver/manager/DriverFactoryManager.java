@@ -16,6 +16,7 @@ public class DriverFactoryManager {
     private DriverFactoryManager() {
         factories = new HashMap<>();
         factories.put("chrome", ChromeDriverFactory::new);
+        factories.put("chromeMobile", ChromeDriverFactory::new);
         factories.put("firefox", FirefoxDriverFactory::new);
         factories.put("edge", EdgeDriverFactory::new);
     }
