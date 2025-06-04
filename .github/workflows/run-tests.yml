@@ -53,6 +53,9 @@ jobs:
       TESTS: ${{ github.event.inputs.tests }}
       TESTS_SUITE: ${{ github.event.inputs.tests_suite }}
     steps:
+      - name: Start local The Internet
+        run: scripts/start_local_the_internet.sh
+
       - name: Checkout code
         uses: actions/checkout@v4
 

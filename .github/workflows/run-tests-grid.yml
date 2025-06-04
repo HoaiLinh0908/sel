@@ -50,6 +50,9 @@ jobs:
       TESTS_SUITE: ${{ github.event.inputs.tests_suite }}
       SELENIUM_GRID_URL: http://localhost:4444
     steps:
+      - name: Start local The Internet
+        run: scripts/start_local_the_internet.sh
+
       - name: Checkout code
         uses: actions/checkout@v4
 
