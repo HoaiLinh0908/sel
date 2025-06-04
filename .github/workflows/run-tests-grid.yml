@@ -49,13 +49,12 @@ jobs:
       TESTS: ${{ github.event.inputs.tests }}
       TESTS_SUITE: ${{ github.event.inputs.tests_suite }}
       SELENIUM_GRID_URL: http://localhost:4444
+      THE_INTERNET_PORT: 7080
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Start local The Internet
-        env:
-          THE_INTERNET_PORT: 7080
         run: bash scripts/start_local_the_internet.sh
 
       - name: Set up JDK
@@ -83,6 +82,8 @@ jobs:
           scripts/check_grid_start.sh
 
       - name: Run Tests
+        env:
+          THE_INTERNET_URL: http://localhost:${{ env.THE_INTERNET_PORT }}
         run: |
           echo "TESTS: $TESTS"
           echo "TESTS_SUITE: $TESTS_SUITE"

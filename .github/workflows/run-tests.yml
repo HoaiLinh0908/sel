@@ -52,13 +52,12 @@ jobs:
       BROWSER: ${{ matrix.browser }}
       TESTS: ${{ github.event.inputs.tests }}
       TESTS_SUITE: ${{ github.event.inputs.tests_suite }}
+      THE_INTERNET_PORT: 7080
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Start local The Internet
-        env:
-          THE_INTERNET_PORT: 7080
         run: bash scripts/start_local_the_internet.sh
 
       - name: Set up JDK
@@ -79,6 +78,8 @@ jobs:
         run: mvn install -DskipTests
 
       - name: Run Tests
+        env:
+          THE_INTERNET_URL: http://localhost:${{ env.THE_INTERNET_PORT }}
         run: |
           echo "TESTS: $TESTS"
           echo "TESTS_SUITE: $TESTS_SUITE"
