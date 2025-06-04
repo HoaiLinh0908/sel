@@ -54,6 +54,8 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Start local The Internet
+        env:
+          THE_INTERNET_PORT: 7080
         run: bash scripts/start_local_the_internet.sh
 
       - name: Set up JDK

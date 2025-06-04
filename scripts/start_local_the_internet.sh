@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 
-APP_PORT="${THE_INTERNET_PORT}"
-APP_URL="http://${THE_INTERNET_HOST}:${THE_INTERNET_PORT}"
+APP_PORT="${THE_INTERNET_PORT:-7080}"
+APP_URL="http://localhost:$APP_PORT"
 
 docker pull gprestes/the-internet:v2.6.5
 
 docker run -d -p "$APP_PORT":5000 gprestes/the-internet:v2.6.5
 
-echo "Waiting for The Internet to be started at ${APP_URL} …"
+echo "Waiting for The Internet to be started at $APP_URL …"
 # Allow curl failures without exiting the script
 set +e
 
