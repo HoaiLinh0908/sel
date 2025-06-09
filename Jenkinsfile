@@ -21,16 +21,13 @@ pipeline {
         stage('Run tests') {
             steps {
                 echo 'Running Selenium tests...'
-                sh 'mvn clean test -DseleniumManagerLogs=true'
+                sh 'mvn clean test'
             }
         }
     }
 
     post {
         always {
-            echo 'Debug the generated allure reports'
-            sh 'ls -l target'
-            sh 'ls -l target/allure-results'
             sh '[ -d target/allure-results ] && echo "Allure results exist" || echo "No allure results found"'
             allure includeProperties: false,
                    jdk: 'java-21',
