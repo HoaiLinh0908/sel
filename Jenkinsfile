@@ -30,9 +30,7 @@ pipeline {
                 allure includeProperties: false,
                        jdk: 'java-21',
                        results: [[path: "${env.ALLURE_RESULTS}"]]
-            }
 
-            steps {
                 echo 'Debug the generated allure reports'
                 sh 'ls -l target'
                 sh 'ls -l target/allure-results'
