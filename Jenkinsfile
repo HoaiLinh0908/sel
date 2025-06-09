@@ -21,7 +21,7 @@ pipeline {
         stage('Run tests') {
             steps {
                 echo 'Running Selenium tests...'
-                sh 'mvn clean test'
+                sh 'mvn clean test -DseleniumManagerLogs=true'
             }
         }
 
