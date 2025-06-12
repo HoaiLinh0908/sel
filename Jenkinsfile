@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    parameters {
-        string(name: 'Greeting', defaultValue: 'Hello', description: 'How should I greet the world?')
-    }
-
     tools {
         jdk 'java-21'
         maven 'mvn-3.8.4'
@@ -19,6 +15,12 @@ pipeline {
             steps {
                 echo 'Cloning source code...'
                 checkout scm
+            }
+        }
+
+        stage('Start a local The Internet') {
+            steps {
+                echo 'TODO: Start a local app using Docker'
             }
         }
 
