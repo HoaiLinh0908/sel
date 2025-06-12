@@ -21,7 +21,7 @@ pipeline {
         stage('Start a local The Internet') {
             steps {
                 echo 'TODO: Start a local app using Docker'
-                echo 'Test pipeline 1'
+                echo 'Test pipeline 2'
             }
         }
 
