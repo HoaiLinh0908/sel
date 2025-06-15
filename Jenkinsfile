@@ -23,7 +23,7 @@ pipeline {
         stage('Start The Internet') {
             steps {
                 sh 'export THE_INTERNET_PORT=7080'
-                sh 'scripts/start_local_the_internet.sh'
+                sh 'bash scripts/start_local_the_internet.sh'
             }
         }
 
