@@ -22,8 +22,9 @@ pipeline {
 
         stage('Start The Internet') {
             steps {
-                sh 'export THE_INTERNET_PORT=7080'
-                sh 'bash scripts/start_local_the_internet.sh'
+                sh 'docker rm -f the-internet'
+                sh 'docker pull gprestes/the-internet:v2.6.5'
+                sh 'docker run --name the-internet -d -p 7080:5000 gprestes/the-internet:v2.6.5'
             }
         }
 
