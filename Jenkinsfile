@@ -20,20 +20,20 @@ pipeline {
             }
         }
 
-//         stage('Start The Internet') {
-//             steps {
-//                 sh 'docker rm -f the-internet'
-//                 sh 'docker pull gprestes/the-internet:v2.6.5'
-//                 sh 'docker run --name the-internet -d -p 7080:5000 gprestes/the-internet:v2.6.5'
-//             }
-//         }
+        stage('Start The Internet') {
+            steps {
+                sh 'docker rm -f the-internet'
+                sh 'docker pull gprestes/the-internet:v2.6.5'
+                sh 'docker run --name the-internet --network jenkins -d -p 7080:5000 gprestes/the-internet:v2.6.5'
+            }
+        }
 
         stage('Set environment variables') {
             steps {
                 echo 'Setting environment variables before running tests...'
                 script {
                     env.BROWSER = params.BROWSER
-                    //env.THE_INTERNET_URL = 'http://localhost:7080'
+                    env.THE_INTERNET_URL = 'http://the-internet:5000'
                 }
             }
         }
