@@ -1,7 +1,7 @@
 
 services:
   jenkins:
-    image: myjenkins-blueocean:lts-jdk17
+    image: my-jenkins-image:june-20
     container_name: jenkins
     restart: on-failure
     networks:
@@ -11,15 +11,18 @@ services:
       - jdk_data:/var/jenkins_home/tools/hudson.model.JDK
       - /var/run/docker.sock:/var/run/docker.sock
     group_add:
-      - 1001   # host docker group GID
+      - '1001'   # host docker group GID (replace with the id on your device)
     ports:
       - "8080:8080"
       - "50000:50000"
 
 volumes:
   jenkins-data:
+    external: true
   jdk_data:
+    external: true
 
 networks:
   jenkins:
+    name: jenkins
     driver: bridge
